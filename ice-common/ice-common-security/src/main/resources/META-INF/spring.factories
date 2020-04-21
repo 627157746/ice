@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.zhb.ice.common.security.service.IceUserDetailsService
+

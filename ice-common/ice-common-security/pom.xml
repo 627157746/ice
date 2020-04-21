@@ -12,11 +12,17 @@
     <artifactId>ice-common-security</artifactId>
 
     <dependencies>
-        <!--安全模块-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
+            <groupId>com.zhb</groupId>
+            <artifactId>ice-common-core</artifactId>
+            <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.zhb</groupId>
+            <artifactId>ice-system-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!--安全模块-->
         <dependency>
             <groupId>org.springframework.security.oauth.boot</groupId>
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>

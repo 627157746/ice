@@ -18,6 +18,8 @@
 
 package com.zhb.ice.auth.config;
 
+import com.zhb.ice.common.security.component.IceWebResponseExceptionTranslator;
+import com.zhb.ice.common.security.service.IceClientDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -47,45 +49,47 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-	private final DataSource dataSource;
-	private final UserDetailsService userDetailsService;
-	private final AuthenticationManager authenticationManager;
-	private final RedisConnectionFactory redisConnectionFactory;
-	private final PasswordEncoder passwordEncoder;
+    private final DataSource dataSource;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final RedisConnectionFactory redisConnectionFactory;
+    private final PasswordEncoder passwordEncoder;
 
-	@Override
-	@SneakyThrows
-	public void configure(ClientDetailsServiceConfigurer clients) {
-		IceClientDetailsService clientDetailsService = new IceClientDetailsService(dataSource);
+    @Override
+    @SneakyThrows
+    public void configure(ClientDetailsServiceConfigurer clients) {
+        IceClientDetailsService clientDetailsService = new IceClientDetailsService(dataSource);
 //		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
 //		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-		clients.withClientDetails(clientDetailsService)
-				.jdbc().passwordEncoder(passwordEncoder);
+        clients.withClientDetails(clientDetailsService)
+                .jdbc().passwordEncoder(passwordEncoder);
 //		clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
-	}
+    }
 
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-		oauthServer
-			.allowFormAuthenticationForClients()
-			.checkTokenAccess("permitAll()");
-	}
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+        oauthServer
+                .allowFormAuthenticationForClients()
+                .checkTokenAccess("permitAll()");
+    }
 
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints
-			.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-			.tokenStore(tokenStore())
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+
+        endpoints
+                .allowedTokenEndpointRequestMethods(HttpMethod.POST)
+                .tokenStore(tokenStore())
 //			.tokenEnhancer(tokenEnhancer())
-			.userDetailsService(userDetailsService)
-			.authenticationManager(authenticationManager)
-			.reuseRefreshTokens(false);
-	}
+                .userDetailsService(userDetailsService)
+                .authenticationManager(authenticationManager)
+                .exceptionTranslator(new IceWebResponseExceptionTranslator())
+                .reuseRefreshTokens(false);
+    }
 
-	@Bean
-	public TokenStore tokenStore() {
-		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix("ice:");
-		return tokenStore;
-	}
+    @Bean
+    public TokenStore tokenStore() {
+        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+        tokenStore.setPrefix("ice:");
+        return tokenStore;
+    }
 }

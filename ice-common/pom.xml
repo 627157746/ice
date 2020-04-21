@@ -16,6 +16,7 @@
     <modules>
         <module>ice-common-core</module>
         <module>ice-common-security</module>
+        <module>ice-common-mybatis</module>
     </modules>
 
 

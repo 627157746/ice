@@ -13,18 +13,19 @@
 
     <dependencies>
         <dependency>
-            <artifactId>ice-common-core</artifactId>
-            <groupId>com.zhb</groupId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
             <artifactId>ice-common-security</artifactId>
             <groupId>com.zhb</groupId>
             <version>1.0.0</version>
         </dependency>
+        <!--注册中心客户端-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!--JDBC相关-->
         <dependency>
