@@ -25,12 +25,13 @@ import lombok.Getter;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * 自定义OAuth2Exception
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/8 16:21
  */
 @JsonSerialize(using = IceAuth2ExceptionSerializer.class)
 public class IceAuth2Exception extends OAuth2Exception {
+
     @Getter
     Status status;
 
@@ -38,8 +39,4 @@ public class IceAuth2Exception extends OAuth2Exception {
         super(msg);
     }
 
-    public IceAuth2Exception(String msg, Status status) {
-        super(msg);
-        this.status = status;
-    }
 }

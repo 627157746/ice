@@ -18,35 +18,33 @@
 
 package com.zhb.ice.common.security.component;
 
-import com.zhb.ice.common.core.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
+import static com.zhb.ice.common.core.constant.SecurityConstants.RESOURCE_SERVER_CONFIGURER;
+
 /**
- * @author lengleng
- * @date 2019/03/08
+ * @Author zhb
+ * @Description TODO 资源服务注入
+ * @Date 2020/4/8 16:21
  */
 @Slf4j
 public class IceSecurityBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
-	/**
-	 * 根据注解值动态注入资源服务器的相关属性
-	 *
-	 * @param metadata 注解信息
-	 * @param registry 注册器
-	 */
+
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-		if (registry.isBeanNameInUse(SecurityConstants.RESOURCE_SERVER_CONFIGURER)) {
-			log.warn("本地存在资源服务器配置，覆盖默认配置:" + SecurityConstants.RESOURCE_SERVER_CONFIGURER);
+
+		if (registry.isBeanNameInUse(RESOURCE_SERVER_CONFIGURER)) {
+			log.warn("本地存在资源服务器配置，覆盖默认配置:" + RESOURCE_SERVER_CONFIGURER);
 			return;
 		}
 
 		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 		beanDefinition.setBeanClass(IceResourceServerConfigurerAdapter.class);
-		registry.registerBeanDefinition(SecurityConstants.RESOURCE_SERVER_CONFIGURER, beanDefinition);
+		registry.registerBeanDefinition(RESOURCE_SERVER_CONFIGURER, beanDefinition);
 
 	}
 }

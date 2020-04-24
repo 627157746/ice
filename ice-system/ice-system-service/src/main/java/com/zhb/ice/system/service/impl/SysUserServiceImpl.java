@@ -5,14 +5,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysMenu;
 import com.zhb.ice.system.api.entity.SysRole;
+import com.zhb.ice.system.api.entity.SysSocialUser;
 import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.mapper.SysUserMapper;
 import com.zhb.ice.system.service.SysMenuService;
 import com.zhb.ice.system.service.SysRoleService;
+import com.zhb.ice.system.service.SysSocialUserService;
 import com.zhb.ice.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +26,6 @@ import java.util.stream.Collectors;
  * @Author zhb
  * @Description TODO
  * @Date 2020/4/20 20:41
- * @Version 1.0
  */
 @Service
 @RequiredArgsConstructor
@@ -32,6 +34,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysRoleService sysRoleService;
 
     private final SysMenuService sysMenuService;
+
+    private final SysSocialUserService sysSocialUserService;
 
     @Override
     public UserInfo getUserInfo(SysUser sysUser) {
@@ -47,7 +51,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .stream()
                 .map(SysRole::getName)
                 .collect(Collectors.toList());
-        userInfo.setRoleNames(ArrayUtil.toArray(roleNames,String.class));
+        userInfo.setRoleNames(roleNames);
 
         //设置权限列表（menu.permission）
         Set<String> permissions = new HashSet<>();
@@ -61,6 +65,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         });
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
         return userInfo;
+    }
+
+    @Override
+    @Transactional
+    public void register(SysUser sysUser, SysSocialUser sysSocialUser) {
+        this.save(sysUser);
+        sysSocialUser.setUid(sysUser.getId());
+        sysSocialUserService.save(sysSocialUser);
     }
 
 }

@@ -6,11 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Objects;
+import java.util.List;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO IceUser
  * @Date 2020/4/21 17:37
  * @Version 1.0
  */
@@ -31,13 +31,15 @@ public class IceUser implements UserDetails {
 
     private boolean lockAccount;
 
+    private final List<String> roleNames;
+
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public static IceUser build(SysUser sysUser, Collection<? extends GrantedAuthority> authorities) {
-        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.isLockAccount(), authorities);
+    public static IceUser build(SysUser sysUser,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {
+        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.isLockAccount(),roleNames, authorities);
     }
 
-    private IceUser(int id, String username, String password, String nickname, String phone, String avatar, boolean lockAccount, Collection<? extends GrantedAuthority> authorities) {
+    private IceUser(int id, String username, String password, String nickname, String phone, String avatar, boolean lockAccount,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -45,12 +47,13 @@ public class IceUser implements UserDetails {
         this.phone = phone;
         this.avatar = avatar;
         this.lockAccount = lockAccount;
+        this.roleNames = roleNames;
         this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -80,6 +83,6 @@ public class IceUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return Objects.equals(this.lockAccount, true);
+        return !lockAccount;
     }
 }

@@ -18,9 +18,9 @@
 
 package com.zhb.ice.common.security.component;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -29,40 +29,35 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 /**
- * @author lengleng
- * @date 2019/03/08
- *
- * <p>
- * 1. 支持remoteTokenServices 负载均衡
- * 2. 支持 获取用户全部信息
+ * @Author zhb
+ * @Description TODO 资源服务器主要配置
+ * @Date 2020/4/8 16:21
  */
 @Slf4j
+@RequiredArgsConstructor
 public class IceResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
-    @Autowired
-    private AuthenticationEntryPoint iceAuthenticationEntryPoint;
-    @Autowired
-    private AccessDeniedHandler iceAccessDeniedHandler;
 
-    /**
-     * 默认的配置，对外暴露
-     *
-     * @param httpSecurity
-     */
+    private final AuthenticationEntryPoint iceAuthenticationEntryPoint;
+    private final AccessDeniedHandler iceAccessDeniedHandler;
+    private final PermitAllUrlProperties permitAllUrlProperties;
+
     @Override
     @SneakyThrows
     public void configure(HttpSecurity httpSecurity) {
-        //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
+
         httpSecurity.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = httpSecurity
                 .authorizeRequests();
-        registry.antMatchers("/users/info/**").permitAll()
-                .anyRequest().authenticated()
+        permitAllUrlProperties.getUrls()
+                .forEach(url -> registry.antMatchers(url).permitAll());
+        registry.anyRequest().authenticated()
                 .and().csrf().disable();
     }
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
+
         resources.authenticationEntryPoint(iceAuthenticationEntryPoint)
                 .accessDeniedHandler(iceAccessDeniedHandler);
     }

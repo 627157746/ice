@@ -10,7 +10,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Author zhb
  * @Description TODO
  * @Date 2020/4/19 19:33
- * @Version 1.0
  */
 @SpringCloudApplication
 @EnableIceResourceServer

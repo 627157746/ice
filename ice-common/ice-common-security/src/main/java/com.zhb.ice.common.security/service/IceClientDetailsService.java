@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 扩展JdbcClientDetailsService
  * @Date 2020/4/17 16:05
  */
 public class IceClientDetailsService extends JdbcClientDetailsService {

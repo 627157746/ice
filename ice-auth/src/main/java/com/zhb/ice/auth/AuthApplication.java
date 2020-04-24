@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Date 2020/4/17 14:37
  */
 @SpringCloudApplication
-@EnableFeignClients(basePackages = "com.zhb.ice.system.api.feign")
+@EnableFeignClients(basePackages = "com.zhb.ice")
 public class AuthApplication {
 
     public static void main(String[] args) {

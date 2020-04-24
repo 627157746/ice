@@ -35,7 +35,7 @@ CREATE TABLE `oauth_client_details` (
 
 /*Data for the table `oauth_client_details` */
 
-insert  into `oauth_client_details`(`client_id`,`resource_ids`,`client_secret`,`scope`,`authorized_grant_types`,`web_server_redirect_uri`,`authorities`,`access_token_validity`,`refresh_token_validity`,`additional_information`,`autoapprove`) values ('admin',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('app',NULL,'app','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('gen',NULL,'gen','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('pig',NULL,'pig','server','password,refresh_token,authorization_code,client_credentials','http://localhost:4040/sso1/login,http://localhost:4041/sso1/login',NULL,NULL,NULL,NULL,'true'),('test',NULL,'test','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true');
+insert  into `oauth_client_details`(`client_id`,`resource_ids`,`client_secret`,`scope`,`authorized_grant_types`,`web_server_redirect_uri`,`authorities`,`access_token_validity`,`refresh_token_validity`,`additional_information`,`autoapprove`) values ('admin',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','sms,password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('app',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('phone',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('pig',NULL,'pig','server','password,refresh_token,authorization_code,client_credentials','http://localhost:4040/sso1/login,http://localhost:4041/sso1/login',NULL,NULL,NULL,NULL,'true'),('test',NULL,'test','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true');
 
 /*Table structure for table `sys_dept` */
 
@@ -207,6 +207,25 @@ CREATE TABLE `sys_role_menu` (
 
 insert  into `sys_role_menu`(`role_id`,`menu_id`) values (1,1000),(1,1100),(1,1101),(1,1102),(1,1103),(1,1200),(1,1201),(1,1202),(1,1203),(1,1300),(1,1301),(1,1302),(1,1303),(1,1304),(1,1400),(1,1401),(1,1402),(1,1403),(1,2000),(1,2100),(1,2101),(1,2200),(1,2201),(1,2202),(1,2203),(1,2300),(1,2301),(1,2400),(1,2401),(1,2402),(1,2403),(1,2500),(1,3000),(1,3100),(1,3200),(1,3300),(1,3301),(1,3302),(1,3303),(1,3400),(1,9999);
 
+/*Table structure for table `sys_social_user` */
+
+DROP TABLE IF EXISTS `sys_social_user`;
+
+CREATE TABLE `sys_social_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `type` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '第三方类型',
+  `accessToken` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'access_token',
+  `refreshToken` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'refreshToken',
+  `openId` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'openId',
+  `uid` int(11) DEFAULT NULL COMMENT 'uid',
+  PRIMARY KEY (`id`),
+  CONSTRAINT `sys_social_user_ibfk_1` FOREIGN KEY (`id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+/*Data for the table `sys_social_user` */
+
+insert  into `sys_social_user`(`id`,`type`,`accessToken`,`refreshToken`,`openId`,`uid`) values (1,'qq','',NULL,'57D78F37619F49D2D5CDE9AD14280702',1);
+
 /*Table structure for table `sys_user` */
 
 DROP TABLE IF EXISTS `sys_user`;
@@ -222,15 +241,15 @@ CREATE TABLE `sys_user` (
   `dept_id` int(11) DEFAULT NULL COMMENT '部门ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(13) DEFAULT NULL COMMENT '修改时间',
-  `is_lock` tinyint(1) DEFAULT '0' COMMENT '是否锁定',
+  `is_lock_account` tinyint(1) DEFAULT '0' COMMENT '是否锁定',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','17034642999','',NULL,1,NULL,NULL,0,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0);
 
 /*Table structure for table `sys_user_role` */
 

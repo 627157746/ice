@@ -18,9 +18,9 @@ public enum Status implements IStatus {
     SUCCESS(200, "success"),
 
     /**
-     * 没有数据！
+     * 未找到数据！
      */
-    NOT_FOUND_DATA(404, "没有数据！"),
+    NOT_FOUND_DATA(404, "未找到数据！"),
 
     /**
      * 服务器繁忙！
@@ -56,12 +56,12 @@ public enum Status implements IStatus {
     /**
      * 参数不匹配！
      */
-    PARAM_NOT_MATCH(500, "参数不匹配！"),
+    PARAM_NOT_MATCH(400, "参数不匹配！"),
 
     /**
      * 参数不能为空！
      */
-    PARAM_NOT_NULL(500, "参数不能为空！"),
+    PARAM_NOT_NULL(400, "参数不能为空！"),
 
     /**
      * token过期或者token无效
@@ -83,15 +83,21 @@ public enum Status implements IStatus {
      */
     USERNAME_PASSWORD_ERROR(4001, "用户名或者密码不正确！"),
 
+
     /**
      * 账户被锁定！
      */
-    ACCOUNT_LOCK(4002, "账户被锁定！");
+    ACCOUNT_LOCK(4002, "账户被锁定！"),
+
+    /**
+     * 手机验证码不正确！
+     */
+    SMS_CODE_ERROR(4002, "手机验证码不正确！");
 
     /**
      * 状态码
      */
-    private Integer code;
+    private int code;
 
     /**
      * 返回信息
@@ -99,7 +105,7 @@ public enum Status implements IStatus {
     private String msg;
 
     @Override
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 

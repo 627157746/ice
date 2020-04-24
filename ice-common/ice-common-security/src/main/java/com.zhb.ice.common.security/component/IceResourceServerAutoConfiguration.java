@@ -22,26 +22,12 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * @author lengleng
- * @date 2019/03/08
+ * @Author zhb
+ * @Description TODO 自动注入
+ * @Date 2020/4/8 16:21
  */
 @ConfigurationPropertiesScan
 @ComponentScan("com.zhb.ice.common.security")
 public class IceResourceServerAutoConfiguration {
-//	@Bean
-//	@Primary
-//	@LoadBalanced
-//	public RestTemplate lbRestTemplate() {
-//		RestTemplate restTemplate = new RestTemplate();
-//		restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
-//			@Override
-//			@SneakyThrows
-//			public void handleError(ClientHttpResponse response) {
-//				if (response.getRawStatusCode() != HttpStatus.BAD_REQUEST.value()) {
-//					super.handleError(response);
-//				}
-//			}
-//		});
-//		return restTemplate;
-//	}
+
 }

@@ -8,14 +8,13 @@ import com.zhb.ice.common.core.exception.BaseException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @Author zhb
+ * @Description TODO Response响应封装
+ * @Date 2020/4/23 9:06
+ */
 public class ResponseUtil {
 
-    /**
-     * 往 response 写出 json
-     *
-     * @param response 响应
-     * @param status   状态
-     */
     public static void renderJson(HttpServletResponse response, IStatus status) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");
@@ -24,12 +23,6 @@ public class ResponseUtil {
                 .write(JSONUtil.toJsonStr(new JSONObject(R.ofStatus(status), false)));
     }
 
-    /**
-     * 往 response 写出 json
-     *
-     * @param response  响应
-     * @param exception 异常
-     */
     public static void renderJson(HttpServletResponse response, BaseException exception) throws IOException {
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "*");

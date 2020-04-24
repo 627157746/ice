@@ -18,31 +18,32 @@
 
 package com.zhb.ice.common.security.exception;
 
-import com.zhb.ice.common.core.constant.Status;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.security.component.IceAuth2ExceptionSerializer;
 
 import static com.zhb.ice.common.core.constant.SecurityConstants.ACCOUNT_LOCK;
 import static com.zhb.ice.common.core.constant.SecurityConstants.INVALID_REFRESH_TOKEN;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/8 16:21
  */
 @JsonSerialize(using = IceAuth2ExceptionSerializer.class)
 public class InvalidException extends IceAuth2Exception {
 
-    public InvalidException(String msg, Throwable t) {
+    public InvalidException(String msg) {
         super(msg);
     }
 
     @Override
     public Status getStatus() {
+        if (getMessage().equals(ACCOUNT_LOCK)) {
+            return Status.ACCOUNT_LOCK;
+        }
         if (getMessage().startsWith(INVALID_REFRESH_TOKEN)) {
             return Status.INVALID_REFRESH_TOKEN;
-        }
-        if (getMessage().startsWith(ACCOUNT_LOCK)) {
-            return Status.ACCOUNT_LOCK;
         }
         return Status.USERNAME_PASSWORD_ERROR;
     }

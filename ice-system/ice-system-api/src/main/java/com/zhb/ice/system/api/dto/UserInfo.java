@@ -4,16 +4,17 @@ import com.zhb.ice.system.api.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 用户信息对象
  * @Date 2020/4/20 21:08
- * @Version 1.0
  */
 @Data
 public class UserInfo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     /**
      * 用户基本信息
      */
@@ -26,5 +27,5 @@ public class UserInfo implements Serializable {
     /**
      * 角色集合
      */
-    private String[] roleNames;
+    private List<String> roleNames;
 }

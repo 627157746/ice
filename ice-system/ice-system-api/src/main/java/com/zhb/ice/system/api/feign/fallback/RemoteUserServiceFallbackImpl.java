@@ -20,15 +20,18 @@ package com.zhb.ice.system.api.feign.fallback;
 
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.R;
+import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
+import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.api.feign.RemoteUserService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/20 20:42
  */
 @Slf4j
 @Component
@@ -36,9 +39,22 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
     @Setter
     private Throwable cause;
 
+
     @Override
-    public R<UserInfo> info(String username) {
+    public R register(SysUserDto sysUserDto, String from) {
+        return R.ofStatus(Status.ERROR);
+    }
+
+    @Override
+    public R<SysUser> getSysUserByOpenId(String openId, String from) {
+        log.error("feign 查询用户信息失败:{}", openId, cause);
+        return R.ofStatus(Status.ERROR);
+    }
+
+    @Override
+    public R<UserInfo> info(String username, String type, String from) {
         log.error("feign 查询用户信息失败:{}", username, cause);
         return R.ofStatus(Status.ERROR);
     }
+
 }

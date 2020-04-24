@@ -13,7 +13,6 @@ import java.io.Serializable;
  * @Author zhb
  * @Description TODO
  * @Date 2020/4/20 20:44
- * @Version 1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

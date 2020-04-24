@@ -23,18 +23,22 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.zhb.ice.common.security.component.IceAuth2ExceptionSerializer;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/8 16:21
  */
 @JsonSerialize(using = IceAuth2ExceptionSerializer.class)
 public class UnauthorizedException extends IceAuth2Exception {
 
-    public UnauthorizedException(String msg, Throwable t) {
+    public UnauthorizedException(String msg) {
         super(msg);
     }
 
     @Override
     public Status getStatus() {
+        if (getMessage().equals(Status.ERROR.getMsg())) {
+            return Status.ERROR;
+        }
         return Status.UNAUTHORIZED;
     }
 

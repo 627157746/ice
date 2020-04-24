@@ -18,78 +18,108 @@
 
 package com.zhb.ice.auth.config;
 
-import com.zhb.ice.common.security.component.IceWebResponseExceptionTranslator;
+import com.zhb.ice.auth.filter.IceOauthFilter;
+import com.zhb.ice.auth.granter.TokenGranterConfig;
 import com.zhb.ice.common.security.service.IceClientDetailsService;
+import com.zhb.ice.common.security.service.IceUser;
+import com.zhb.ice.common.security.service.IceUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.TokenGranter;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
-import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.zhb.ice.common.core.constant.SecurityConstants.CLIENT_KEY_PREFIX;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * 认证服务器配置
+ * @Author zhb
+ * @Description TODO 认证服务器配置
+ * @Date 2020/4/23 9:06
  */
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final DataSource dataSource;
-    private final UserDetailsService userDetailsService;
+    private final IceClientDetailsService clientDetailsService;
+    private final IceUserDetailsService userDetailsService;
     private final AuthenticationManager authenticationManager;
     private final RedisConnectionFactory redisConnectionFactory;
     private final PasswordEncoder passwordEncoder;
+    private final IceOauthFilter iceOauthFilter;
 
     @Override
     @SneakyThrows
     public void configure(ClientDetailsServiceConfigurer clients) {
-        IceClientDetailsService clientDetailsService = new IceClientDetailsService(dataSource);
-//		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-//		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+
         clients.withClientDetails(clientDetailsService)
                 .jdbc().passwordEncoder(passwordEncoder);
-//		clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
+
         oauthServer
-                .allowFormAuthenticationForClients()
+//                .allowFormAuthenticationForClients()
                 .checkTokenAccess("permitAll()");
+        oauthServer.addTokenEndpointAuthenticationFilter(iceOauthFilter);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
-        endpoints
-                .allowedTokenEndpointRequestMethods(HttpMethod.POST)
-                .tokenStore(tokenStore())
-//			.tokenEnhancer(tokenEnhancer())
+        TokenGranter tokenGranter = new TokenGranterConfig(endpoints.getTokenServices(),
+                endpoints.getAuthorizationCodeServices(),
+                endpoints.getOAuth2RequestFactory(),
+                clientDetailsService,
+                userDetailsService,
+                authenticationManager)
+                .tokenGranter();
+
+        endpoints.tokenStore(tokenStore())
+                .tokenEnhancer(tokenEnhancer())
                 .userDetailsService(userDetailsService)
                 .authenticationManager(authenticationManager)
-                .exceptionTranslator(new IceWebResponseExceptionTranslator())
-                .reuseRefreshTokens(false);
+//                .exceptionTranslator(new IceWebResponseExceptionTranslator())
+                .reuseRefreshTokens(false)
+                .tokenGranter(tokenGranter);
     }
 
     @Bean
     public TokenStore tokenStore() {
+
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.setPrefix("ice:");
+        tokenStore.setPrefix(CLIENT_KEY_PREFIX);
         return tokenStore;
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return (accessToken, authentication) -> {
+            final Map<String, Object> additionalInfo = new HashMap<>(7);
+            IceUser iceUser = (IceUser) authentication.getUserAuthentication().getPrincipal();
+            additionalInfo.put("id", iceUser.getId());
+            additionalInfo.put("username", iceUser.getUsername());
+            additionalInfo.put("nickname", iceUser.getNickname());
+            additionalInfo.put("avatar", iceUser.getAvatar());
+            additionalInfo.put("roles", iceUser.getRoleNames());
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+            return accessToken;
+        };
     }
 }

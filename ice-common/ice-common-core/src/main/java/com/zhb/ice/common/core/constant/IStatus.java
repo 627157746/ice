@@ -12,7 +12,7 @@ public interface IStatus {
      *
      * @return 状态码
      */
-    Integer getCode();
+    int getCode();
 
     /**
      * 返回信息

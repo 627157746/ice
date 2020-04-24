@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,10 +12,12 @@ import java.io.Serializable;
  * @Author zhb
  * @Description TODO
  * @Date 2020/4/20 20:42
- * @Version 1.0
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("sys_user")
 public class SysUser implements Serializable {
 
@@ -37,7 +38,7 @@ public class SysUser implements Serializable {
 
     private String remark;
 
-    private String deptId;
+    private int deptId;
 
     private long createTime;
 

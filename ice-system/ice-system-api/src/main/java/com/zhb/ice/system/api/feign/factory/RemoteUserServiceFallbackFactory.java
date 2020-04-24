@@ -24,8 +24,9 @@ import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/20 20:42
  */
 @Component
 public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteUserService> {

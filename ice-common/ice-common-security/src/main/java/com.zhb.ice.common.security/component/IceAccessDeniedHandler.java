@@ -18,6 +18,7 @@ import java.io.IOException;
  */
 @Component
 public class IceAccessDeniedHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
         ResponseUtil.renderJson(response, Status.ACCESS_DENIED);

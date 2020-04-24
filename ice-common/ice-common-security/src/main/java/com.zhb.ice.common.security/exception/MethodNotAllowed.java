@@ -23,13 +23,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.zhb.ice.common.security.component.IceAuth2ExceptionSerializer;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @Author zhb
+ * @Description TODO
+ * @Date 2020/4/8 16:21
  */
 @JsonSerialize(using = IceAuth2ExceptionSerializer.class)
 public class MethodNotAllowed extends IceAuth2Exception {
 
-    public MethodNotAllowed(String msg, Throwable t) {
+    public MethodNotAllowed(String msg) {
         super(msg);
     }
 

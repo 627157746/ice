@@ -8,7 +8,7 @@ import lombok.SneakyThrows;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO Oauth2序列化错误响应
  * @Date 2020/4/20 10:55
  * @Version 1.0
  */

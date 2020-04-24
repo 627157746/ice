@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.zhb.ice.common.security.service.IceUserDetailsService
+  com.zhb.ice.common.security.service.IceUserDetailsService,\
+  com.zhb.ice.common.security.component.IceIgnoreAspect,\
+  com.zhb.ice.common.security.service.IceClientDetailsConfig
 

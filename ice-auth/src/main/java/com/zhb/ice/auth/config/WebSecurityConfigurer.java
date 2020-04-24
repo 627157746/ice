@@ -18,64 +18,43 @@
 
 package com.zhb.ice.auth.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * 认证相关配置
+ * @Author zhb
+ * @Description TODO 认证相关配置
+ * @Date 2020/4/23 9:06
  */
 @Primary
 @Order(90)
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-//	@Override
-//	@SneakyThrows
-//	protected void configure(HttpSecurity http) {
-//		http
-//			.formLogin()
-//			.loginPage("/token/login")
-//			.loginProcessingUrl("/token/form")
-////			.failureHandler(authenticationFailureHandler())
-//			.and()
-//			.authorizeRequests()
-//			.antMatchers(
-//				"/token/**",
-//				"/actuator/**",
-//				"/mobile/**").permitAll()
-//			.anyRequest().authenticated()
-//			.and().csrf().disable();
-//	}
+    @Override
+    @SneakyThrows
+    protected void configure(HttpSecurity http) {
 
-//	@Override
-//	public void configure(WebSecurity web) {
-//		web.ignoring().antMatchers("/css/**");
-//	}
+        http.authorizeRequests()
+                .antMatchers("/oauth/**").permitAll()
+                .anyRequest().authenticated()
+                .and().csrf().disable();
+    }
 
-	@Bean
-	@Override
-	@SneakyThrows
-	public AuthenticationManager authenticationManagerBean() {
-		return super.authenticationManagerBean();
-	}
 
-//	@Bean
-//	public AuthenticationFailureHandler authenticationFailureHandler() {
-//		return new FormAuthenticationFailureHandler();
-//	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    @Override
+    @SneakyThrows
+    public AuthenticationManager authenticationManagerBean() {
+        return super.authenticationManagerBean();
+    }
 
 }

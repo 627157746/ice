@@ -12,7 +12,6 @@ import java.util.List;
  * @Author zhb
  * @Description TODO
  * @Date 2020/4/20 21:11
- * @Version 1.0
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {

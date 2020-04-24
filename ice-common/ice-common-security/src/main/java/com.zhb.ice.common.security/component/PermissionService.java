@@ -30,19 +30,18 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 
 /**
- * @author lengleng
- * @date 2019/2/1
- * 接口权限判断工具
+ * @Author zhb
+ * @Description TODO 权限判断
+ * @Date 2020/4/8 16:21
  */
 @Slf4j
 @Component("ice")
 public class PermissionService {
+
     /**
-     * 判断接口是否有xxx:xxx权限
-     *
-     * @param permission 权限
-     * @return {boolean}
-     */
+     * @Description //TODO 接口权限判断
+     * @Date  2020/4/24 14:04
+     **/
     public boolean hasPermission(String permission) {
         if (StrUtil.isBlank(permission)) {
             return false;

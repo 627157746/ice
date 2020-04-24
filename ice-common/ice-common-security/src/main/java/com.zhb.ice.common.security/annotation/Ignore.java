@@ -21,27 +21,24 @@ package com.zhb.ice.common.security.annotation;
 import java.lang.annotation.*;
 
 /**
- * @author lengleng
- * @date 2018/11/26
- * <p>
- * 服务调用不鉴权注解
+ * @Author zhb
+ * @Description TODO 调用资源服务不需要认证注解
+ * @Date 2020/4/22 17:13
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Inner {
+public @interface Ignore {
 
 	/**
 	 * 是否AOP统一处理
 	 *
-	 * @return false, true
 	 */
 	boolean value() default true;
 
 	/**
 	 * 需要特殊判空的字段(预留)
 	 *
-	 * @return {}
 	 */
 	String[] field() default {};
 }
