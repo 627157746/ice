@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v12.08 (64 bit)
-MySQL - 8.0.18 : Database - ice
+SQLyog Enterprise v12.08 (64 bit)
+MySQL - 8.0.17 : Database - ice
 *********************************************************************
 */
 
@@ -12,6 +12,8 @@ MySQL - 8.0.18 : Database - ice
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`ice` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
 USE `ice`;
 
 /*Table structure for table `oauth_client_details` */
@@ -187,11 +189,11 @@ CREATE TABLE `sys_role` (
   `update_time` bigint(13) DEFAULT NULL COMMENT '更新时间',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色表';
 
 /*Data for the table `sys_role` */
 
-insert  into `sys_role`(`id`,`name`,`remark`,`create_time`,`update_time`,`is_del`) values (1,'ROLE_ADMIN','管理员',20171029154551,20181226140911,0);
+insert  into `sys_role`(`id`,`name`,`remark`,`create_time`,`update_time`,`is_del`) values (1,'ROLE_ADMIN','管理员',20171029154551,20181226140911,0),(2,'ROLE_USER','普通用户',1111111111,11111111111,0);
 
 /*Table structure for table `sys_role_menu` */
 
@@ -213,18 +215,19 @@ DROP TABLE IF EXISTS `sys_social_user`;
 
 CREATE TABLE `sys_social_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `type` varchar(20) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '第三方类型',
-  `accessToken` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'access_token',
-  `refreshToken` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'refreshToken',
-  `openId` varchar(50) COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'openId',
+  `type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '第三方类型',
+  `access_token` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'access_token',
+  `refresh_token` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'refresh_token',
+  `open_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'open_id',
   `uid` int(11) DEFAULT NULL COMMENT 'uid',
   PRIMARY KEY (`id`),
-  CONSTRAINT `sys_social_user_ibfk_1` FOREIGN KEY (`id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `uid` (`uid`),
+  CONSTRAINT `sys_social_user_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `sys_social_user` */
 
-insert  into `sys_social_user`(`id`,`type`,`accessToken`,`refreshToken`,`openId`,`uid`) values (1,'qq','',NULL,'57D78F37619F49D2D5CDE9AD14280702',1);
+insert  into `sys_social_user`(`id`,`type`,`access_token`,`refresh_token`,`open_id`,`uid`) values (2,'QQ','D10A65312EE57D86EDC56C1CBD874947','112C5B864599059C582DA20CAA0642B1','40D878D357FC9308AE2FCE5B976DBEBC',15),(3,'QQ','08EB929AD448480FE446D248B4053599','93CE93D79603CA7B2E304630C53111F7','592B3D01CCCE2A7654CB18DAD8100F99',16);
 
 /*Table structure for table `sys_user` */
 
@@ -245,11 +248,11 @@ CREATE TABLE `sys_user` (
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,NULL,NULL,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,0,0,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,0,0,0,0);
 
 /*Table structure for table `sys_user_role` */
 

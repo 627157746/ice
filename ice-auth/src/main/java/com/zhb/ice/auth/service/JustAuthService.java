@@ -10,7 +10,7 @@ import java.util.Map;
  * @Description TODO
  * @Date 2020/4/24 15:45
  */
-public interface RestAuthService {
+public interface JustAuthService {
 
     Map<String, Object> login(AuthCallback callback, AuthRequest authRequest);
 }

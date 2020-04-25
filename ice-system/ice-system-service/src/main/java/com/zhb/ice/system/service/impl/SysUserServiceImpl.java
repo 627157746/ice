@@ -39,6 +39,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public UserInfo getUserInfo(SysUser sysUser) {
+
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
         //设置角色列表  （ID）
@@ -70,6 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional
     public void register(SysUser sysUser, SysSocialUser sysSocialUser) {
+
         this.save(sysUser);
         sysSocialUser.setUid(sysUser.getId());
         sysSocialUserService.save(sysSocialUser);

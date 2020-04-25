@@ -21,10 +21,4 @@ public class BaseException extends RuntimeException {
         this.code = status.getCode();
         this.msg = status.getMsg();
     }
-
-    public BaseException(Integer code, String msg) {
-        super(msg);
-        this.code = code;
-        this.msg = msg;
-    }
 }

@@ -27,4 +27,10 @@ public class SecurityConstants {
     public static final String FROM_V = "inner";
 
     public static final String FROM_K = "from";
+
+    public static final String DEFAULT_CLIENT_ID = "admin";
+
+    public static final String DEFAULT_CLIENT_SECRET = "123456";
+
+    public static final String DEFAULT_REGISTER_PASSWORD = "123456";
 }

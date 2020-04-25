@@ -83,7 +83,6 @@ public enum Status implements IStatus {
      */
     USERNAME_PASSWORD_ERROR(4001, "用户名或者密码不正确！"),
 
-
     /**
      * 账户被锁定！
      */
@@ -92,7 +91,17 @@ public enum Status implements IStatus {
     /**
      * 手机验证码不正确！
      */
-    SMS_CODE_ERROR(4002, "手机验证码不正确！");
+    SMS_CODE_ERROR(4002, "手机验证码不正确！"),
+
+    /**
+     * 不支持的认证类型！
+     */
+    NOT_SUPPORT_AUTH_TYPE(4003, "不支持的认证类型！"),
+
+    /**
+     * 第三方认证已关闭!
+     */
+    CLOSE_AUTH_TYPE(4003, "第三方认证已关闭！");
 
     /**
      * 状态码
