@@ -57,5 +57,4 @@ public class R<T> implements Serializable {
         return of(t.getCode(), t.getMsg(), null);
     }
 
-
 }

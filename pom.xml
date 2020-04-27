@@ -11,6 +11,7 @@
         <module>ice-system</module>
         <module>ice-gateway</module>
         <module>ice-test</module>
+        <module>ice-monitor</module>
     </modules>
     <name>${artifactId}</name>
     <packaging>pom</packaging>
@@ -39,8 +40,8 @@
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-devtools</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-devtools</artifactId>-->
         <!--</dependency>-->
         <!--注解配置类生效-->
         <dependency>
@@ -58,6 +59,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--spring-boot-admin监控-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
         <!--熔断降级-->
         <dependency>
@@ -99,6 +106,12 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!--监控服务端-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security.oauth</groupId>

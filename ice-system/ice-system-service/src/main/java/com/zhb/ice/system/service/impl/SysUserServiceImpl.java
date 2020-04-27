@@ -42,7 +42,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         UserInfo userInfo = new UserInfo();
         userInfo.setSysUser(sysUser);
-        //设置角色列表  （ID）
+        //设置角色列表
         List<Integer> roleIds = sysRoleService.findRolesByUserId(sysUser.getId())
                 .stream()
                 .map(SysRole::getId)
@@ -54,7 +54,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .collect(Collectors.toList());
         userInfo.setRoleNames(roleNames);
 
-        //设置权限列表（menu.permission）
+        //设置权限列表
         Set<String> permissions = new HashSet<>();
         roleIds.forEach(roleId -> {
             List<String> permissionList = sysMenuService.findMenuByRoleId(roleId)

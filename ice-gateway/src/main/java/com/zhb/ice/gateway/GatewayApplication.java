@@ -1,7 +1,7 @@
 package com.zhb.ice.gateway;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
  * @Author zhb
@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Date 2020/4/20 9:59
  * @Version 1.0
  */
-@SpringBootApplication
+@SpringCloudApplication
 public class GatewayApplication {
 
     public static void main(String[] args) {

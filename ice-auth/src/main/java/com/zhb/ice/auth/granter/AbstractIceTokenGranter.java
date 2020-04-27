@@ -11,7 +11,7 @@ import java.util.Map;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 抽象类tokenGranter,通过实现此类扩展登录
  * @Date 2020/4/23 16:52
  */
 public abstract class AbstractIceTokenGranter extends AbstractTokenGranter {

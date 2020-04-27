@@ -33,16 +33,21 @@ public class IceUserDetailsService implements UserDetailsService {
     private final SmsUtil smsUtil;
 
 
+    /**
+     * @Description //TODO 账号密码登录
+     * @Date  2020/4/26 9:28
+     **/
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        R<UserInfo> userInfoR = remoteUserService.info(username, USERNAME, FROM_V);
-//        if (userInfoR.getCode() == Status.PARAM_NOT_MATCH.getCode()) {
-//            throw new UsernameNotFoundException(Status.ERROR.getMsg());
-//        }
 
+        R<UserInfo> userInfoR = remoteUserService.info(username, USERNAME, FROM_V);
         return getUserDetails(userInfoR);
     }
 
+    /**
+     * @Description //TODO 手机短信登录
+     * @Date  2020/4/26 9:28
+     **/
     public IceUser loadUserByPhoneAndSmsCode(String phone, String smsCode) throws UsernameNotFoundException {
 
         if (!smsUtil.checkSmsCode(phone, smsCode)) {
@@ -53,10 +58,9 @@ public class IceUserDetailsService implements UserDetailsService {
         return getUserDetails(userInfoR);
     }
 
+
     private IceUser getUserDetails(R<UserInfo> userInfoR) {
         switch (userInfoR.getCode()) {
-//            case 400:
-//                throw new BaseException(Status.ERROR);
             case 500:
                 throw new BaseException(Status.ERROR);
             case 405:

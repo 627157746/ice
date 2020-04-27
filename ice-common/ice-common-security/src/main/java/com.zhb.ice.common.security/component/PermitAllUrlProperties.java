@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 /**
  * @Author zhb
- * @Description TODO 不要拦截的接口
+ * @Description TODO 不需要拦截的接口
  * @Date 2020/4/22 17:09
  */
 @Slf4j

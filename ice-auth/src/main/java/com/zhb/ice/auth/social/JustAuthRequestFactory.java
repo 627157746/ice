@@ -10,7 +10,7 @@ import me.zhyd.oauth.request.AuthRequest;
 
 /**
  * @Author zhb
- * @Description TODO 根据类型获取authRequest
+ * @Description TODO 根据第三方登录类型获取authRequest
  * @Date 2020/4/25 17:23
  */
 

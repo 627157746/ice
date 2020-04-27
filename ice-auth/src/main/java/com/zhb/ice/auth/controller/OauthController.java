@@ -60,18 +60,4 @@ public class OauthController {
         return R.ofSuccess();
     }
 
-    /**
-     * @Description //TODO 定制申请返回实体
-     * @Date 2020/4/23 16:37
-     **/
-//    private R<Map<String, Object>> custom(OAuth2AccessToken accessToken) {
-//
-//        DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-//        Map<String, Object> data = new LinkedHashMap<>(token.getAdditionalInformation());
-//        data.put("accessToken", token.getValue());
-//        if (token.getRefreshToken() != null) {
-//            data.put("refreshToken", token.getRefreshToken().getValue());
-//        }
-//        return R.ofSuccess(data);
-//    }
 }

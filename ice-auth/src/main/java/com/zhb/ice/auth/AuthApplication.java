@@ -6,7 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 启动类
  * @Date 2020/4/17 14:37
  */
 @SpringCloudApplication

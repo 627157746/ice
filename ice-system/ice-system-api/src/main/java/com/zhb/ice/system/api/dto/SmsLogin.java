@@ -22,7 +22,4 @@ public class SmsLogin implements Serializable {
     @NotEmpty(message = "手机号不能为空！")
     private String phone;
 
-//    @Size(min = 6,max = 6,message = "验证码不正确！")
-//    private String smsCode;
-
 }

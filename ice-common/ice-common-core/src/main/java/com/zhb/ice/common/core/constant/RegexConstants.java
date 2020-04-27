@@ -2,7 +2,7 @@ package com.zhb.ice.common.core.constant;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 正则常量
  * @Date 2020/4/24 10:18
  */
 public class RegexConstants {

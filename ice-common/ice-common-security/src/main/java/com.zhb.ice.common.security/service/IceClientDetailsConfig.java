@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO clientDetails配置
  * @Date 2020/4/23 15:03
  */
 @Configuration

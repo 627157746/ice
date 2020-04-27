@@ -1,6 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.zhb.ice.common.core.config.RedisTemplateConfig,\
-  com.zhb.ice.common.core.exception.GlobalExceptionHandler,\
+  com.zhb.ice.common.core.exception.DefaultExceptionHandler,\
   com.zhb.ice.common.core.util.SmsUtil,\
-  com.zhb.ice.common.core.util.RedisUtil
+  com.zhb.ice.common.core.util.RedisUtil,\
+  com.zhb.ice.common.core.config.AesConfig
 

@@ -44,7 +44,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) {
 
         http.authorizeRequests()
-                .antMatchers("/oauth/**").permitAll()
+                .antMatchers("/oauth/**",
+                        "/actuator/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
     }

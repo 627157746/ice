@@ -2,7 +2,7 @@ package com.zhb.ice.common.core.constant;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 公共常量
  * @Date 2020/4/24 10:15
  */
 public class CommonConstants {

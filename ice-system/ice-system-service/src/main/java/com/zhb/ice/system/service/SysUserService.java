@@ -11,6 +11,7 @@ import com.zhb.ice.system.api.entity.SysUser;
  * @Date 2020/4/20 20:40
  */
 public interface SysUserService extends IService<SysUser> {
+
     UserInfo getUserInfo(SysUser sysUser);
 
     void register(SysUser sysUser, SysSocialUser sysSocialUser);

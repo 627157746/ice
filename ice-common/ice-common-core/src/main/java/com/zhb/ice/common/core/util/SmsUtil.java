@@ -26,6 +26,7 @@ public class SmsUtil {
      * @Date 2020/4/24 11:11
      **/
     public void sendSmsCode(String phone) {
+        //可自行加入第三方sdk
         String smsCode = RandomUtil.randomNumbers(6);
         redisUtil.set(SMS_KEY_PREFIX + phone, smsCode, 5, TimeUnit.MINUTES);
     }

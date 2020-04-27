@@ -13,7 +13,7 @@ import static com.zhb.ice.common.core.constant.SecurityConstants.SMS_GRANT_TYPE;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO 手机短信登录
  * @Date 2020/4/23 17:00
  */
 public class SmsCodeIceTokenGranter extends AbstractIceTokenGranter {

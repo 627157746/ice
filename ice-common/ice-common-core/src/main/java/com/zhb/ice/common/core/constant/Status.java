@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Author zhb
- * @Description TODO 状态实现类
+ * @Description TODO 状态枚举类
  * @Date 2020/4/17 11:40
  */
 @AllArgsConstructor

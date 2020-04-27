@@ -1,5 +1,6 @@
 package com.zhb.ice.auth.filter;
 
+import cn.hutool.crypto.symmetric.AES;
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.ResponseUtil;
 import com.zhb.ice.common.security.service.IceClientDetailsService;
@@ -35,6 +36,8 @@ public class IceOauthFilter extends OncePerRequestFilter {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final AES aes;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -49,8 +52,10 @@ public class IceOauthFilter extends OncePerRequestFilter {
             ResponseUtil.renderJson(response, Status.INVALID_CLIENT_PARAM);
             return;
         }
+
         //验证头部client数据
         handle(request, response, clientArrays, filterChain);
+
     }
 
     private void handle(HttpServletRequest request, HttpServletResponse response, String[] clientArrays, FilterChain filterChain) throws IOException, ServletException {
@@ -70,7 +75,7 @@ public class IceOauthFilter extends OncePerRequestFilter {
             return;
         }
         //client_secret不匹配直接输出异常
-        if (!passwordEncoder.matches(clientArrays[1],clientDetails.getClientSecret())) {
+        if (!passwordEncoder.matches(clientArrays[1], clientDetails.getClientSecret())) {
             ResponseUtil.renderJson(response, Status.INVALID_CLIENT_PARAM);
             return;
         }

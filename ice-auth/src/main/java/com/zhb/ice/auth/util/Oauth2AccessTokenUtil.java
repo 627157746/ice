@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * @Author zhb
- * @Description TODO
+ * @Description TODO Oauth2AccessToken获取工具类
  * @Date 2020/4/24 16:56
  */
 @UtilityClass

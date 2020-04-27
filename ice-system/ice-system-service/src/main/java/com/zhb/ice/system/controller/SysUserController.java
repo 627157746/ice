@@ -35,6 +35,10 @@ public class SysUserController {
     @Value("${server.port}")
     int port;
 
+    /**
+     * @Description //TODO 注册一个第三方用户
+     * @Date  2020/4/26 9:34
+     **/
     @PostMapping("/social")
     @Ignore
     public R register(@RequestBody SysUserDto sysUserDto) {
@@ -43,6 +47,10 @@ public class SysUserController {
     }
 
 
+    /**
+     * @Description //TODO 通过openId查询用户
+     * @Date  2020/4/26 9:34
+     **/
     @GetMapping("/social/{openId}")
     @Ignore
     public R<SysUser> getSysUserByOpenId(@PathVariable(value = "openId") String openId) {
@@ -55,7 +63,7 @@ public class SysUserController {
     }
 
     /**
-     * @Description //TODO 根据type来获取用户的全部信息
+     * @Description //TODO 通过用户名或者手机号查询用户,type值为phone、username
      * @Date 2020/4/23 17:25
      **/
     @GetMapping("/info/{value}")
