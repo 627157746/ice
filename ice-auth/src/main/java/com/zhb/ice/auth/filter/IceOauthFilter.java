@@ -1,6 +1,5 @@
 package com.zhb.ice.auth.filter;
 
-import cn.hutool.crypto.symmetric.AES;
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.ResponseUtil;
 import com.zhb.ice.common.security.service.IceClientDetailsService;
@@ -35,8 +34,6 @@ public class IceOauthFilter extends OncePerRequestFilter {
     private final IceClientDetailsService clientDetailsService;
 
     private final PasswordEncoder passwordEncoder;
-
-    private final AES aes;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -105,4 +102,5 @@ public class IceOauthFilter extends OncePerRequestFilter {
         }
         return null;
     }
+
 }

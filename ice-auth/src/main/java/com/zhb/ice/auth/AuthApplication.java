@@ -1,7 +1,8 @@
 package com.zhb.ice.auth;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
@@ -9,7 +10,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Description TODO 启动类
  * @Date 2020/4/17 14:37
  */
-@SpringCloudApplication
+@SpringBootApplication
+@EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.zhb.ice")
 public class AuthApplication {
 

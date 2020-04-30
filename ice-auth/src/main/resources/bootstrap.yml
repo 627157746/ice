@@ -16,9 +16,8 @@ spring:
   profiles:
     active: dev
 logging:
-  file:
-    name: logs/${spring.application.name}/debug.log
+#  file:
+#    name: logs/${spring.application.name}/debug.log
   level:
-#    org:
-#      springframework: debug
-    com.zhb.ice.system.api.feign.RemoteUserService: debug
+    com.zhb.ice.system.api.feign.RemoteLogService: debug
+

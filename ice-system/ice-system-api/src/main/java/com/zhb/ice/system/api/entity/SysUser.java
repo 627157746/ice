@@ -1,9 +1,6 @@
 package com.zhb.ice.system.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.*;
 
 import java.io.Serializable;
@@ -48,5 +45,6 @@ public class SysUser implements Serializable {
     private boolean lockAccount;
 
     @TableField("is_del")
+    @TableLogic
     private boolean del;
 }

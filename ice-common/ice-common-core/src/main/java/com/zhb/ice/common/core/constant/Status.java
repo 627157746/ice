@@ -27,6 +27,21 @@ public enum Status implements IStatus {
      */
     ERROR(500, "服务器繁忙！"),
 
+    /**
+     * 添加数据失败！
+     */
+    SAVE_ERROR(500, "添加数据失败！"),
+
+    /**
+     * 删除数据失败！
+     */
+    REMOVE_ERROR(500, "删除数据失败！"),
+
+    /**
+     * 修改数据失败！
+     */
+    UPDATE_ERROR(500, "修改数据失败！"),
+
 
     /**
      * 请先登录！
@@ -47,6 +62,11 @@ public enum Status implements IStatus {
      * 请求方式不支持！
      */
     HTTP_BAD_METHOD(405, "请求方式不支持！"),
+
+    /**
+     * 请求频繁请稍后再试！
+     */
+    TOO_MANY_REQUEST(426, "请求频繁请稍后再试！"),
 
     /**
      * 请求异常！

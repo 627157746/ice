@@ -18,12 +18,9 @@
 
 package com.zhb.ice.system.api.feign.fallback;
 
-import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.R;
-import com.zhb.ice.system.api.dto.SysUserDto;
-import com.zhb.ice.system.api.dto.UserInfo;
-import com.zhb.ice.system.api.entity.SysUser;
-import com.zhb.ice.system.api.feign.RemoteUserService;
+import com.zhb.ice.system.api.entity.SysLog;
+import com.zhb.ice.system.api.feign.RemoteLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -34,22 +31,11 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class RemoteUserServiceFallbackImpl implements RemoteUserService {
+public class RemoteLogServiceFallbackImpl implements RemoteLogService {
 
     @Override
-    public R register(SysUserDto sysUserDto, String from) {
-        return R.ofStatus(Status.ERROR);
+    public R<Boolean> save(SysLog sysLog, String from) {
+        log.error("feign日志插入失败");
+        return R.ofError();
     }
-
-    @Override
-    public R<SysUser> getSysUserByOpenId(String openId, String from) {
-        return R.ofStatus(Status.ERROR);
-    }
-
-    @Override
-    public R<UserInfo> info(String username, String type, String from) {
-        log.error("feign ice-system-service服务请求失败");
-        return R.ofStatus(Status.ERROR);
-    }
-
 }

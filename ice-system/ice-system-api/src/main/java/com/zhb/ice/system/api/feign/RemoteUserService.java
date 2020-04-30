@@ -7,7 +7,7 @@ import com.zhb.ice.common.core.util.R;
 import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysUser;
-import com.zhb.ice.system.api.feign.factory.RemoteUserServiceFallbackFactory;
+import com.zhb.ice.system.api.feign.fallback.RemoteUserServiceFallbackImpl;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.*;
  * @Description TODO 用户信息feign客户端
  * @Date 2020/4/20 20:42
  */
-@FeignClient(contextId = "remoteUserService", name = "ice-system-service", value = "ice-system-service", fallbackFactory = RemoteUserServiceFallbackFactory.class)
+@FeignClient(contextId = "remoteUserService",
+        value = "ice-system-service",
+        fallback = RemoteUserServiceFallbackImpl.class)
 public interface RemoteUserService {
 
     /**

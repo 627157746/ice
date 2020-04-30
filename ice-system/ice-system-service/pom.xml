@@ -21,6 +21,11 @@
             <artifactId>ice-common-security</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.zhb</groupId>
+            <artifactId>ice-common-log</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

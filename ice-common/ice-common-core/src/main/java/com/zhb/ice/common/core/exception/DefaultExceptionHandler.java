@@ -45,7 +45,6 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public R exception(Exception e) {
-        System.out.println(e.getClass());
         log.error("全局异常信息 ex={}", e.getMessage());
         return R.ofError();
     }

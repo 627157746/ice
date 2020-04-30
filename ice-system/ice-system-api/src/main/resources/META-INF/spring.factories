@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.zhb.ice.system.api.feign.fallback.RemoteUserServiceFallbackImpl,\
-  com.zhb.ice.system.api.feign.factory.RemoteUserServiceFallbackFactory
+  com.zhb.ice.system.api.feign.fallback.RemoteLogServiceFallbackImpl
 

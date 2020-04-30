@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.R;
+import com.zhb.ice.common.log.annotation.SysLog;
 import com.zhb.ice.common.security.annotation.Ignore;
 import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
@@ -23,8 +24,8 @@ import static com.zhb.ice.common.core.constant.SecurityConstants.USERNAME;
  * @Description TODO
  * @Date 2020/4/20 20:40
  */
-@RestController
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/users")
 public class SysUserController {
 
@@ -68,6 +69,7 @@ public class SysUserController {
      **/
     @GetMapping("/info/{value}")
     @Ignore
+    @SysLog("查询用户")
     public R<UserInfo> info(@PathVariable(value = "value") String value, @RequestParam("type") String type) {
         if (!StrUtil.equals(USERNAME, type) && !StrUtil.equals(PHONE, type)) {
             return R.ofStatus(Status.PARAM_NOT_MATCH);

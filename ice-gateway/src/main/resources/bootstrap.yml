@@ -13,34 +13,6 @@ spring:
         file-extension: yml
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        # 认证中心
-        - id: ice-auth
-          uri: lb://ice-auth
-          predicates:
-            - Path=/auth/**
-          filters:
-            # 前端密码解密
-            - PasswordDecoderFilter
-        # 系统管理模块
-        - id: ice-system-service
-          uri: lb://ice-system-service
-          predicates:
-            - Path=/system/**
-      default-filters:
-        - name: RequestRateLimiter
-          args:
-            key-resolver: '#{@remoteAddrKeyResolver}'
-            redis-rate-limiter.replenishRate: 5
-            redis-rate-limiter.burstCapacity: 10
-        - name: Hystrix
-          args:
-            name: default
-            fallbackUri: 'forward:/fallback'
   profiles:
     active: dev
 

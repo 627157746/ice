@@ -1,6 +1,8 @@
 package com.zhb.ice.gateway.exception;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
+import com.alibaba.csp.sentinel.slots.block.flow.param.ParamFlowException;
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.common.core.util.R;
@@ -44,9 +46,12 @@ public class IceErrorWebExceptionHandler extends DefaultErrorWebExceptionHandler
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
 
         Throwable error = super.getError(request);
-        log.error("网关异常:{}", error.getMessage());
+        log.error("网关异常:{},异常类:{}", error.getMessage(), error.getClass());
         if (error instanceof BaseException) {
             return BeanUtil.beanToMap(R.ofException((BaseException) error));
+        }
+        if (error instanceof FlowException||error instanceof ParamFlowException){
+            return BeanUtil.beanToMap(R.ofStatus(Status.TOO_MANY_REQUEST));
         }
 
         Map<String, Object> errorAttributes = super.getErrorAttributes(request, includeStackTrace);

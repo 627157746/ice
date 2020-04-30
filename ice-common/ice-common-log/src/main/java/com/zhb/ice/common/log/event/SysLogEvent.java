@@ -16,26 +16,19 @@
  *
  */
 
-package com.zhb.ice.system.api.feign.factory;
+package com.zhb.ice.common.log.event;
 
-import com.zhb.ice.system.api.feign.RemoteUserService;
-import com.zhb.ice.system.api.feign.fallback.RemoteUserServiceFallbackImpl;
-import feign.hystrix.FallbackFactory;
-import org.springframework.stereotype.Component;
+import com.zhb.ice.system.api.entity.SysLog;
+import org.springframework.context.ApplicationEvent;
 
 /**
  * @Author zhb
  * @Description TODO
- * @Date 2020/4/20 20:42
+ * @Date 2020/4/30 16:33
  */
-@Component
-public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteUserService> {
+public class SysLogEvent extends ApplicationEvent {
 
-
-	@Override
-	public RemoteUserService create(Throwable throwable) {
-		RemoteUserServiceFallbackImpl remoteUserServiceFallback = new RemoteUserServiceFallbackImpl();
-		remoteUserServiceFallback.setCause(throwable);
-		return remoteUserServiceFallback;
+	public SysLogEvent(SysLog source) {
+		super(source);
 	}
 }
