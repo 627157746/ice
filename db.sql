@@ -1,6 +1,6 @@
 /*
-SQLyog Enterprise v12.08 (64 bit)
-MySQL - 8.0.17 : Database - ice
+SQLyog Ultimate v12.08 (64 bit)
+MySQL - 8.0.18 : Database - ice
 *********************************************************************
 */
 
@@ -12,8 +12,6 @@ MySQL - 8.0.17 : Database - ice
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`ice` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-
 USE `ice`;
 
 /*Table structure for table `oauth_client_details` */
@@ -127,30 +125,28 @@ DROP TABLE IF EXISTS `sys_log`;
 
 CREATE TABLE `sys_log` (
   `id` bigint(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `type` char(1) DEFAULT '1' COMMENT '日志类型',
-  `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
-  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
-  `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
-  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-  `params` text COMMENT '操作提交的数据',
-  `time` mediumtext COMMENT '执行时间',
-  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
-  `exception` text COMMENT '异常信息',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '日志类型',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '日志标题',
+  `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '服务ID',
+  `create_by` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
+  `ip` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作IP地址',
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户代理',
+  `request_uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求URI',
+  `method` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作方式',
+  `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '操作提交的数据',
+  `time` int(11) DEFAULT NULL COMMENT '执行时间',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`),
   KEY `sys_log_create_by` (`create_by`),
   KEY `sys_log_request_uri` (`request_uri`),
   KEY `sys_log_type` (`type`),
   KEY `sys_log_create_date` (`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 /*Data for the table `sys_log` */
 
-insert  into `sys_log`(`id`,`type`,`title`,`service_id`,`create_by`,`create_time`,`update_time`,`remote_addr`,`user_agent`,`request_uri`,`method`,`params`,`time`,`del_flag`,`exception`) values (1,'0','添加字典','pig','admin','2020-04-16 11:50:27',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dict','POST','','57','0',NULL),(2,'0','新增数据源表','pig','admin','2020-04-16 14:55:16',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','POST','','120','0',NULL),(3,'0','修改数据源表','pig','admin','2020-04-16 14:58:18',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','45','0',NULL),(4,'0','修改数据源表','pig','admin','2020-04-16 15:08:56',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','39','0',NULL),(5,'0','修改数据源表','pig','admin','2020-04-16 15:13:25',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','11305','0',NULL),(6,'0','修改数据源表','pig','admin','2020-04-16 15:14:56',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','36','0',NULL),(7,'0','修改数据源表','pig','admin','2020-04-16 15:15:17',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','36','0',NULL),(8,'0','修改数据源表','pig','admin','2020-04-16 15:17:42',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','11278','0',NULL),(9,'0','修改数据源表','pig','admin','2020-04-16 15:18:05',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36','/dsconf','PUT','','35','0',NULL);
+insert  into `sys_log`(`id`,`type`,`title`,`service_id`,`create_by`,`create_time`,`ip`,`user_agent`,`request_uri`,`method`,`params`,`time`,`is_del`) values (11,'0','查询用户',NULL,'anonymousUser',NULL,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',14,0);
 
 /*Table structure for table `sys_menu` */
 
@@ -215,19 +211,19 @@ DROP TABLE IF EXISTS `sys_social_user`;
 
 CREATE TABLE `sys_social_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `type` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '第三方类型',
-  `access_token` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'access_token',
-  `refresh_token` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'refresh_token',
-  `open_id` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'open_id',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '第三方类型',
+  `access_token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'access_token',
+  `refresh_token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'refresh_token',
+  `open_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'open_id',
   `uid` int(11) DEFAULT NULL COMMENT 'uid',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   CONSTRAINT `sys_social_user_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `sys_social_user` */
 
-insert  into `sys_social_user`(`id`,`type`,`access_token`,`refresh_token`,`open_id`,`uid`) values (2,'QQ','D10A65312EE57D86EDC56C1CBD874947','112C5B864599059C582DA20CAA0642B1','40D878D357FC9308AE2FCE5B976DBEBC',15),(3,'QQ','08EB929AD448480FE446D248B4053599','93CE93D79603CA7B2E304630C53111F7','592B3D01CCCE2A7654CB18DAD8100F99',16);
+insert  into `sys_social_user`(`id`,`type`,`access_token`,`refresh_token`,`open_id`,`uid`) values (2,'QQ','D10A65312EE57D86EDC56C1CBD874947','112C5B864599059C582DA20CAA0642B1','40D878D357FC9308AE2FCE5B976DBEBC',15),(3,'QQ','08EB929AD448480FE446D248B4053599','93CE93D79603CA7B2E304630C53111F7','592B3D01CCCE2A7654CB18DAD8100F99',16),(4,'QQ','40DDF3FBF83175F0FC342E741F5672D7','81FD51B0A02AC0EFA9E62D657D6B1430','57D78F37619F49D2D5CDE9AD14280702',17);
 
 /*Table structure for table `sys_user` */
 
@@ -248,11 +244,11 @@ CREATE TABLE `sys_user` (
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,NULL,NULL,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,0,0,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,0,0,0,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,NULL,NULL,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,0,0,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,0,0,0,0),(17,'ovaet279xh','$2a$10$yEVrQU6mBBxboscRmv9C1e8Y8dxbWTs.ztUUKIs3h27lu1rXKs5Ki','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,10,0,0,0,0);
 
 /*Table structure for table `sys_user_role` */
 
