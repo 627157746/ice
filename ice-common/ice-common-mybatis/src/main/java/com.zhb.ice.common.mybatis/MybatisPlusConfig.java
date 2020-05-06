@@ -19,6 +19,7 @@
 package com.zhb.ice.common.mybatis;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,7 +37,12 @@ public class MybatisPlusConfig {
 	 */
 	@Bean
 	public PaginationInterceptor paginationInterceptor() {
-		return new PaginationInterceptor();
+
+		PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+		paginationInterceptor.setLimit(100L);
+		paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
+
+		return paginationInterceptor;
 	}
 
 }

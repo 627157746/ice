@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.zhb.ice.common.mybatis.MybatisPlusConfig
+  com.zhb.ice.common.mybatis.MybatisPlusConfig,\
+  com.zhb.ice.common.mybatis.IceMetaObjectHandler

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 /**
  * @Author zhb
  * @Description TODO 封装第三方用户注册类
@@ -14,7 +16,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysUserDto {
+public class SysUserDto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户

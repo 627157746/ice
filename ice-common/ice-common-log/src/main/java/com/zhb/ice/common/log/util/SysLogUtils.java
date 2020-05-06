@@ -1,5 +1,6 @@
 package com.zhb.ice.common.log.util;
 
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
@@ -32,7 +33,7 @@ public class SysLogUtils {
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         sysLog.setMethod(request.getMethod());
         sysLog.setUserAgent(request.getHeader("user-agent"));
-        sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
+        sysLog.setParams(HttpUtil.toParams(request.getParameterMap(), CharsetUtil.CHARSET_UTF_8));
         sysLog.setServiceId(getClientId());
         return sysLog;
     }

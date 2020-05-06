@@ -19,17 +19,19 @@ public class SysRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
     private String name;
 
     private String remark;
 
-    private long createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Long createTime;
 
-    private long updateTime;
+    @TableField(fill = FieldFill.UPDATE)
+    private Long updateTime;
 
     @TableField("is_del")
     @TableLogic
-    private boolean del;
+    private Boolean del;
 }

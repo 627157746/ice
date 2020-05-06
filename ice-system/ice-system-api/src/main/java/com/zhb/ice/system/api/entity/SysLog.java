@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 /**
  * @Author zhb
  * @Description TODO
@@ -12,10 +14,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_log")
-public class SysLog {
+public class SysLog implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
     private String type;
 
@@ -25,7 +29,8 @@ public class SysLog {
 
     private String createBy;
 
-    private String createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Long createTime;
 
     private String ip;
 
@@ -37,10 +42,10 @@ public class SysLog {
 
     private String params;
 
-    private int time;
+    private Integer time;
 
     @TableField("is_del")
     @TableLogic
-    private boolean del;
+    private Boolean del;
 
 }

@@ -36,7 +36,7 @@ public class IceUser implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     public static IceUser build(SysUser sysUser,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {
-        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.isLockAccount(),roleNames, authorities);
+        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.getLockAccount(),roleNames, authorities);
     }
 
     private IceUser(int id, String username, String password, String nickname, String phone, String avatar, boolean lockAccount,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {

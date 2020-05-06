@@ -20,7 +20,7 @@ public class SysMenu implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
     private String name;
 
@@ -34,20 +34,22 @@ public class SysMenu implements Serializable {
 
     private String component;
 
-    private int sort;
+    private Integer sort;
 
     @TableField("is_keep_alive")
-    private boolean keepAlive;
+    private Boolean keepAlive;
 
     private String type;
 
-    private long createTime;
+    @TableField(fill = FieldFill.INSERT)
+    private Long createTime;
 
-    private long updateTime;
+    @TableField(fill = FieldFill.UPDATE)
+    private Long updateTime;
 
     @TableField("is_del")
     @TableLogic
-    private boolean del;
+    private Boolean del;
 
 
 }

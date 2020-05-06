@@ -21,7 +21,7 @@ public class SysSocialUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private int id;
+    private Integer id;
 
     private String type;
 
@@ -31,5 +31,5 @@ public class SysSocialUser implements Serializable {
 
     private String openId;
 
-    private int uid;
+    private Integer uid;
 }
