@@ -8,6 +8,8 @@ package com.zhb.ice.common.core.constant;
  */
 public class SecurityConstants {
 
+    public static final String ROLE = "ROLE_";
+
     public static final String OAUTH_TOKEN_URL = "/oauth/token";
 
     public static final String USERNAME = "username";

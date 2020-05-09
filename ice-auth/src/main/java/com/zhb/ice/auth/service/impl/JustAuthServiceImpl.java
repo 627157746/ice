@@ -6,7 +6,7 @@ import com.zhb.ice.auth.util.Oauth2AccessTokenUtil;
 import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.common.core.util.R;
-import com.zhb.ice.system.api.dto.SysUserDto;
+import com.zhb.ice.system.api.dto.SysSocialUserDTO;
 import com.zhb.ice.system.api.entity.SysSocialUser;
 import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.api.feign.RemoteUserService;
@@ -76,7 +76,7 @@ public class JustAuthServiceImpl implements JustAuthService {
                             .refreshToken(authToken.getRefreshToken())
                             .type(data.getSource())
                             .build();
-                    remoteUserService.register(new SysUserDto(sysUser, sysSocialUser), FROM_V);
+                    remoteUserService.register(new SysSocialUserDTO(sysUser, sysSocialUser), FROM_V);
                 } else {
                     sysUser = sysUserR.getData();
                 }

@@ -25,6 +25,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
+import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
@@ -40,6 +43,7 @@ public class IceResourceServerConfigurerAdapter extends ResourceServerConfigurer
     private final AuthenticationEntryPoint iceAuthenticationEntryPoint;
     private final AccessDeniedHandler iceAccessDeniedHandler;
     private final PermitAllUrlProperties permitAllUrlProperties;
+    private final RemoteTokenServices remoteTokenServices;
 
     @Override
     @SneakyThrows
@@ -57,6 +61,11 @@ public class IceResourceServerConfigurerAdapter extends ResourceServerConfigurer
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
+        DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
+        UserAuthenticationConverter userTokenConverter = new IceUserAuthenticationConverter();
+        accessTokenConverter.setUserTokenConverter(userTokenConverter);
+
+        remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 
         resources.authenticationEntryPoint(iceAuthenticationEntryPoint)
                 .accessDeniedHandler(iceAccessDeniedHandler);

@@ -16,7 +16,6 @@ import static com.zhb.ice.common.core.constant.RegexConstants.PHONE_REGEX;
 @Data
 public class SmsLogin implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
     @Pattern(regexp = PHONE_REGEX, message = "手机号不正确！")
     @NotEmpty(message = "手机号不能为空！")

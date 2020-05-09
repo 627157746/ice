@@ -1,40 +1,25 @@
 package com.zhb.ice.system.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import lombok.*;
-
-import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @Author zhb
  * @Description TODO
- * @Date 2020/4/20 20:42
+ * @Date 2020/5/8 16:18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("sys_user")
-public class SysUser implements Serializable {
-
+@TableName("sys_dept")
+public class SysDept {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String username;
+    private String name;
 
-    private String password;
-
-    private String nickname;
-
-    private String phone;
-
-    private String avatar;
-
-    private String remarks;
-
-    private Integer deptId;
+    private Integer sort;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createTime;
@@ -42,8 +27,7 @@ public class SysUser implements Serializable {
     @TableField(fill = FieldFill.UPDATE)
     private Long updateTime;
 
-    @TableField("is_lock_account")
-    private Boolean lockAccount;
+    private Integer parentId;
 
     @TableField("is_del")
     @TableLogic

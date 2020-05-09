@@ -32,7 +32,7 @@ public class JustAuthController {
 
     private final JustAuthProperties properties;
 
-    private final JustAuthService restAuthService;
+    private final JustAuthService justAuthService;
 
     private final JustAuthRequestFactory justAuthFactory;
 
@@ -42,7 +42,6 @@ public class JustAuthController {
      **/
     @RequestMapping("/login/{authType}")
     public void renderAuth(@PathVariable String authType, HttpServletResponse response) throws IOException {
-        isEnabled();
         AuthRequest authRequest = getAuthRequest(authType);
         response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
     }
@@ -53,8 +52,7 @@ public class JustAuthController {
      **/
     @RequestMapping("/{authType}/callback")
     public R<Map<String, Object>> login(@PathVariable String authType, AuthCallback callback) {
-        isEnabled();
-        return R.ofSuccess(restAuthService.login(callback, getAuthRequest(authType)));
+        return R.ofSuccess(justAuthService.login(callback, getAuthRequest(authType)));
     }
 
     private void isEnabled() {
@@ -65,6 +63,7 @@ public class JustAuthController {
     }
 
     private AuthRequest getAuthRequest(String authType) {
+        isEnabled();
         if (StrUtil.isNotBlank(authType)) {
             return justAuthFactory.get(AuthDefaultSource.valueOf(authType.toUpperCase()));
         } else {

@@ -1,12 +1,15 @@
 package com.zhb.ice.system.service.impl;
 
 import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysMenu;
 import com.zhb.ice.system.api.entity.SysRole;
 import com.zhb.ice.system.api.entity.SysSocialUser;
 import com.zhb.ice.system.api.entity.SysUser;
+import com.zhb.ice.system.api.vo.SysUserVO;
 import com.zhb.ice.system.mapper.SysUserMapper;
 import com.zhb.ice.system.service.SysMenuService;
 import com.zhb.ice.system.service.SysRoleService;
@@ -48,11 +51,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .map(SysRole::getId)
                 .collect(Collectors.toList());
 
-        List<String> roleNames = sysRoleService.findRolesByUserId(sysUser.getId())
-                .stream()
-                .map(SysRole::getName)
-                .collect(Collectors.toList());
-        userInfo.setRoleNames(roleNames);
+        userInfo.setRoleIds(roleIds);
 
         //设置权限列表
         Set<String> permissions = new HashSet<>();
@@ -77,4 +76,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysSocialUserService.save(sysSocialUser);
     }
 
+    @Override
+    public IPage pageByQuery(Page page, SysUser sysUser) {
+        return this.baseMapper.pageByQuery(page,sysUser);
+    }
+
+    @Override
+    public SysUserVO getById(Integer id) {
+        return this.baseMapper.selectById(id);
+    }
 }

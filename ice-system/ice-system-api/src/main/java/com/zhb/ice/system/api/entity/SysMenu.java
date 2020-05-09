@@ -16,8 +16,6 @@ import java.io.Serializable;
 @TableName("sys_menu")
 public class SysMenu implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
@@ -28,7 +26,7 @@ public class SysMenu implements Serializable {
 
     private String path;
 
-    private String parentId;
+    private Integer parentId;
 
     private String icon;
 

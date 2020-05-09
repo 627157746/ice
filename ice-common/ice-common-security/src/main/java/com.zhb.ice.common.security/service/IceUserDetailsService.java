@@ -70,10 +70,10 @@ public class IceUserDetailsService implements UserDetailsService {
         }
         UserInfo userInfo = userInfoR.getData();
         SysUser sysUser = userInfo.getSysUser();
-        List<String> roleNames = userInfo.getRoleNames();
+        List<Integer> roleIds = userInfo.getRoleIds();
         String[] permissions = userInfo.getPermissions();
         Collection<? extends GrantedAuthority> authorities
                 = AuthorityUtils.createAuthorityList(permissions);
-        return IceUser.build(sysUser, roleNames, authorities);
+        return IceUser.build(sysUser, roleIds, authorities);
     }
 }

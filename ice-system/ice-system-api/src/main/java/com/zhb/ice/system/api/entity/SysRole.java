@@ -16,14 +16,13 @@ import java.io.Serializable;
 @TableName("sys_role")
 public class SysRole implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String name;
 
-    private String remark;
+    private String remarks;
 
     @TableField(fill = FieldFill.INSERT)
     private Long createTime;

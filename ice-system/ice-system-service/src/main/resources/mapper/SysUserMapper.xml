@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhb.ice.system.mapper.SysUserMapper">
+
+    <resultMap id="userVoResultMap" type="com.zhb.ice.system.api.vo.SysUserVO">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="nickname" property="nickname"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="remarks" property="remarks"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="lock_account" property="lockAccount"/>
+        <result column="del" property="del"/>
+        <result column="dept_name" property="deptName"/>
+        <collection property="roleIds" ofType="int">
+            <constructor>
+                <arg column="role_id"/>
+            </constructor>
+        </collection>
+    </resultMap>
+
+    <sql id="pageByQuerySql">
+          su.`id`,
+          su.`username`,
+          su.`nickname`,
+          su.`phone`,
+          su.`avatar`,
+          su.`remarks`,
+          su.`dept_id`,
+          su.`create_time`,
+          su.`update_time`,
+          su.`is_lock_account` AS lock_account,
+          su.`is_del` AS del,
+          d.name AS dept_name
+    </sql>
+
+    <sql id="userVOSql">
+          su.`id`,
+        su.`username`,
+        su.`nickname`,
+        su.`phone`,
+        su.`avatar`,
+        su.`remarks`,
+        su.`dept_id`,
+        su.`create_time`,
+        su.`update_time`,
+        su.`is_lock_account` AS lock_account,
+        su.`is_del` AS del,
+        d.name AS dept_name,
+        r.id AS role_id
+    </sql>
+
+    <select id="pageByQuery" resultType="com.zhb.ice.system.api.vo.SysUserVO">
+        SELECT
+        <include refid="pageByQuerySql"/>
+        FROM
+        `ice`.`sys_user` su
+        LEFT JOIN `ice`.`sys_dept` AS d ON d.id = `su`.dept_id
+        <where>
+            su.is_del = false
+            <if test="query.username != null and query.username != ''">
+                and `su`.username LIKE CONCAT('%',#{query.username},'%')
+            </if>
+            <if test="query.phone != null and query.phone != ''">
+                and `su`.phone = #{query.phone}
+            </if>
+            <if test="query.deptId != null and query.deptId != ''">
+                and `su`.dept_id = #{query.deptId}
+            </if>
+            <if test="query.lockAccount != null and query.lockAccount != ''">
+                and `su`.is_lock_account = #{query.lockAccount,jdbcType=BOOLEAN}
+            </if>
+        </where>
+        ORDER BY `su`.id ASC
+    </select>
+    <select id="selectById" resultMap="userVoResultMap">
+        SELECT
+        <include refid="userVOSql"/>
+        FROM
+        `ice`.`sys_user` su
+        LEFT JOIN `ice`.`sys_dept` AS d ON d.id = `su`.dept_id
+        LEFT JOIN `ice`.sys_user_role AS ur ON ur.user_id = `su`.id
+        LEFT JOIN `ice`.sys_role AS r ON r.id = ur.role_id
+        WHERE
+        su.id = #{id}
+    </select>
+</mapper>

@@ -6,14 +6,15 @@
     <!--通过角色查询菜单信息-->
     <select id="listMenusByRoleId" resultType="com.zhb.ice.system.api.entity.SysMenu">
         SELECT
-        sys_menu.*
+        m.id,m.`name`,permission,path,parent_id,icon,component,sort,is_keep_alive AS keepAlive,
+        `type`,create_time,update_time,is_del AS del
         FROM
-        sys_menu
-        LEFT JOIN sys_role_menu ON sys_menu.id = sys_role_menu.menu_id
+        sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.id = rm.menu_id
         WHERE
-        sys_menu.is_del = 0
-        AND sys_role_menu.role_id = #{roleId}
+        m.is_del = false
+        AND rm.role_id = #{roleId}
         ORDER BY
-        sys_menu.sort DESC
+        m.sort ASC
     </select>
 </mapper>

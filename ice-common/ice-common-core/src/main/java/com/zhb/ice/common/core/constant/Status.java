@@ -86,12 +86,12 @@ public enum Status implements IStatus {
     /**
      * token过期或者token无效
      */
-    TOKEN_INVALID(5001, "登录过期，请重新登录！"),
+    TOKEN_INVALID(5000, "登录过期，请重新登录！"),
 
     /**
      * 刷新令牌无效！
      */
-    INVALID_REFRESH_TOKEN(5002, "刷新令牌无效！"),
+    INVALID_REFRESH_TOKEN(5001, "刷新令牌无效！"),
 
     /**
      * 无效客户端参数！
@@ -111,17 +111,17 @@ public enum Status implements IStatus {
     /**
      * 手机验证码不正确！
      */
-    SMS_CODE_ERROR(4002, "手机验证码不正确！"),
+    SMS_CODE_ERROR(4003, "手机验证码不正确！"),
 
     /**
      * 不支持的认证类型！
      */
-    NOT_SUPPORT_AUTH_TYPE(4003, "不支持的认证类型！"),
+    NOT_SUPPORT_AUTH_TYPE(4004, "不支持的认证类型！"),
 
     /**
      * 第三方认证已关闭!
      */
-    CLOSE_AUTH_TYPE(4003, "第三方认证已关闭！");
+    CLOSE_AUTH_TYPE(4005, "第三方认证已关闭！");
 
     /**
      * 状态码

@@ -4,7 +4,7 @@ package com.zhb.ice.system.api.feign;
 
 import com.zhb.ice.common.core.constant.SecurityConstants;
 import com.zhb.ice.common.core.util.R;
-import com.zhb.ice.system.api.dto.SysUserDto;
+import com.zhb.ice.system.api.dto.SysSocialUserDTO;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.api.feign.fallback.RemoteUserServiceFallbackImpl;
@@ -26,7 +26,7 @@ public interface RemoteUserService {
      * @Date  2020/4/26 9:31
      **/
     @PostMapping("/users/social")
-    R register(@RequestBody SysUserDto sysUserDto,
+    R register(@RequestBody SysSocialUserDTO sysUserDto,
                @RequestHeader(value = SecurityConstants.FROM_K) String from);
 
     /**

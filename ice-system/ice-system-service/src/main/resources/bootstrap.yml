@@ -16,6 +16,6 @@ spring:
     active: dev
 logging:
   level:
-#    org:
-#      springframework: debug
+    org:
+      springframework: debug
     com.zhb.ice.system: debug

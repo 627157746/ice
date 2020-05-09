@@ -111,13 +111,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            final Map<String, Object> additionalInfo = new HashMap<>(7);
+            final Map<String, Object> additionalInfo = new HashMap<>(9);
             IceUser iceUser = (IceUser) authentication.getUserAuthentication().getPrincipal();
             additionalInfo.put("id", iceUser.getId());
             additionalInfo.put("username", iceUser.getUsername());
             additionalInfo.put("nickname", iceUser.getNickname());
+            additionalInfo.put("phone", iceUser.getPhone());
             additionalInfo.put("avatar", iceUser.getAvatar());
-            additionalInfo.put("roles", iceUser.getRoleNames());
+            additionalInfo.put("roleIds", iceUser.getRoleIds());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };

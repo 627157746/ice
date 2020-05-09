@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 public class UserInfo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     /**
      * 用户基本信息
      */
@@ -27,5 +26,5 @@ public class UserInfo implements Serializable {
     /**
      * 角色集合
      */
-    private List<String> roleNames;
+    private List<Integer> roleIds;
 }

@@ -31,15 +31,15 @@ public class IceUser implements UserDetails {
 
     private boolean lockAccount;
 
-    private final List<String> roleNames;
+    private final List<Integer> roleIds;
 
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public static IceUser build(SysUser sysUser,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {
-        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.getLockAccount(),roleNames, authorities);
+    public static IceUser build(SysUser sysUser,List<Integer> roleIds, Collection<? extends GrantedAuthority> authorities) {
+        return new IceUser(sysUser.getId(), sysUser.getUsername(), sysUser.getPassword(), sysUser.getNickname(), sysUser.getPhone(), sysUser.getAvatar(), sysUser.getLockAccount(),roleIds, authorities);
     }
 
-    private IceUser(int id, String username, String password, String nickname, String phone, String avatar, boolean lockAccount,List<String> roleNames, Collection<? extends GrantedAuthority> authorities) {
+    private IceUser(int id, String username, String password, String nickname, String phone, String avatar, boolean lockAccount,List<Integer> roleIds, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -47,7 +47,7 @@ public class IceUser implements UserDetails {
         this.phone = phone;
         this.avatar = avatar;
         this.lockAccount = lockAccount;
-        this.roleNames = roleNames;
+        this.roleIds = roleIds;
         this.authorities = authorities;
     }
 
