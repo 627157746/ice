@@ -35,26 +35,26 @@ CREATE TABLE `oauth_client_details` (
 
 /*Data for the table `oauth_client_details` */
 
-insert  into `oauth_client_details`(`client_id`,`resource_ids`,`client_secret`,`scope`,`authorized_grant_types`,`web_server_redirect_uri`,`authorities`,`access_token_validity`,`refresh_token_validity`,`additional_information`,`autoapprove`) values ('admin',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','sms,password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('app',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('phone',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('pig',NULL,'pig','server','password,refresh_token,authorization_code,client_credentials','http://localhost:4040/sso1/login,http://localhost:4041/sso1/login',NULL,NULL,NULL,NULL,'true'),('test',NULL,'test','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true');
+insert  into `oauth_client_details`(`client_id`,`resource_ids`,`client_secret`,`scope`,`authorized_grant_types`,`web_server_redirect_uri`,`authorities`,`access_token_validity`,`refresh_token_validity`,`additional_information`,`autoapprove`) values ('admin',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','sms,password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('app',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','password,refresh_token',NULL,NULL,NULL,NULL,NULL,'true'),('phone',NULL,'$2a$10$J/Cn898iyRv870TnQ37t7.rgs6tnLUb/QNTmootsReqeDut.Bn4g6','server','refresh_token',NULL,NULL,NULL,NULL,NULL,'true');
 
 /*Table structure for table `sys_dept` */
 
 DROP TABLE IF EXISTS `sys_dept`;
 
 CREATE TABLE `sys_dept` (
-  `dept_id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) DEFAULT NULL COMMENT '部门名称',
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8 DEFAULT NULL COMMENT '部门名称',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` char(1) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
+  `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
+  `update_time` bigint(13) DEFAULT NULL COMMENT '修改时间',
+  `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   `parent_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='部门管理';
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部门管理';
 
 /*Data for the table `sys_dept` */
 
-insert  into `sys_dept`(`dept_id`,`name`,`sort`,`create_time`,`update_time`,`del_flag`,`parent_id`) values (1,'总经办',0,NULL,NULL,'0',0),(2,'行政中心',1,NULL,NULL,'0',1),(3,'技术中心',2,NULL,NULL,'0',1),(4,'运营中心',3,NULL,NULL,'0',1),(5,'研发中心',5,NULL,NULL,'0',3),(6,'产品中心',6,NULL,NULL,'0',3),(7,'测试中心',7,NULL,NULL,'0',3);
+insert  into `sys_dept`(`id`,`name`,`sort`,`create_time`,`update_time`,`is_del`,`parent_id`) values (1,'总经办',0,1588995163241,1588995163241,0,0),(2,'行政中心',1,1588995163241,1588995163241,0,1),(3,'技术中心',2,1588995163241,1588995163241,0,1),(4,'运营中心',3,1588995163241,1588995163241,0,1),(5,'研发中心',5,1588995163241,1588995163241,0,3),(6,'产品中心',6,1588995163241,1588995163241,0,3),(7,'测试中心',7,1588995163241,1588995163241,0,3);
 
 /*Table structure for table `sys_dept_relation` */
 
@@ -77,21 +77,19 @@ insert  into `sys_dept_relation`(`ancestor`,`descendant`) values (1,1),(1,2),(1,
 DROP TABLE IF EXISTS `sys_dict`;
 
 CREATE TABLE `sys_dict` (
-  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` bigint(13) NOT NULL COMMENT '创建时间',
+  `update_time` bigint(13) NOT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `system` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+  `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `sys_dict_del_flag` (`del_flag`) USING BTREE
+  KEY `sys_dict_del_flag` (`is_del`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典表';
 
 /*Data for the table `sys_dict` */
-
-insert  into `sys_dict`(`id`,`type`,`description`,`create_time`,`update_time`,`remarks`,`system`,`del_flag`) values (1,'dict_type','字典类型','2019-05-16 14:16:20','2019-05-16 14:20:16','系统类不能修改','1','0'),(2,'log_type','日志类型','2020-03-13 14:21:01','2020-03-13 14:21:01','0-正常 1 异常','1','0'),(3,'a','sdf','2020-04-16 11:50:26','2020-04-16 11:50:26','','0','0');
 
 /*Table structure for table `sys_dict_item` */
 
@@ -105,19 +103,17 @@ CREATE TABLE `sys_dict_item` (
   `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序（升序）',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` bigint(20) NOT NULL COMMENT '创建时间',
+  `update_time` bigint(20) NOT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+  `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sys_dict_value` (`value`) USING BTREE,
   KEY `sys_dict_label` (`label`) USING BTREE,
-  KEY `sys_dict_del_flag` (`del_flag`) USING BTREE
+  KEY `sys_dict_del_flag` (`is_del`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
 
 /*Data for the table `sys_dict_item` */
-
-insert  into `sys_dict_item`(`id`,`dict_id`,`value`,`label`,`type`,`description`,`sort`,`create_time`,`update_time`,`remarks`,`del_flag`) values (1,1,'1','系统类','dict_type','系统类字典',0,'2019-05-16 14:20:40','2019-05-16 14:20:40','不能修改删除','0'),(2,1,'0','业务类','dict_type','业务类字典',0,'2019-05-16 14:20:59','2019-05-16 14:20:59','可以修改','0'),(3,2,'0','正常','log_type','正常',0,'2020-03-13 14:23:22','2020-03-13 14:23:22','正常','0'),(4,2,'9','异常','log_type','异常',1,'2020-03-13 14:23:35','2020-03-13 14:23:35','异常','0');
 
 /*Table structure for table `sys_log` */
 
@@ -142,11 +138,11 @@ CREATE TABLE `sys_log` (
   KEY `sys_log_request_uri` (`request_uri`),
   KEY `sys_log_type` (`type`),
   KEY `sys_log_create_date` (`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
+) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_croatian_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 /*Data for the table `sys_log` */
 
-insert  into `sys_log`(`id`,`type`,`title`,`service_id`,`create_by`,`create_time`,`ip`,`user_agent`,`request_uri`,`method`,`params`,`time`,`is_del`) values (11,'0','查询用户',NULL,'anonymousUser',NULL,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',14,0);
+insert  into `sys_log`(`id`,`type`,`title`,`service_id`,`create_by`,`create_time`,`ip`,`user_agent`,`request_uri`,`method`,`params`,`time`,`is_del`) values (15,'0','查询用户',NULL,'anonymousUser',1588748371387,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',411,0),(16,'0','查询用户',NULL,'anonymousUser',1588751678723,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',425,0),(17,'0','查询用户',NULL,'anonymousUser',1588751693892,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(18,'0','查询用户',NULL,'anonymousUser',1588752000860,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',14,0),(19,'0','查询用户',NULL,'anonymousUser',1588752003651,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',28,0),(20,'0','查询用户',NULL,'anonymousUser',1588752113345,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',319,0),(21,'0','查询用户',NULL,'anonymousUser',1588755506950,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',362,0),(22,'0','查询用户',NULL,'anonymousUser',1588755527209,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',77,0),(23,'0','查询用户',NULL,'anonymousUser',1588755584816,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',9,0),(24,'0','查询用户',NULL,'anonymousUser',1588755619885,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',10,0),(25,'0','查询用户',NULL,'anonymousUser',1588755830611,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',10,0),(26,'0','查询用户',NULL,'anonymousUser',1588755845394,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',19,0),(27,'0','查询用户',NULL,'anonymousUser',1588756052705,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',20,0),(28,'0','查询用户',NULL,'anonymousUser',1588756226875,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',9,0),(29,'0','查询用户',NULL,'anonymousUser',1588758551754,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',289,0),(30,'0','查询用户',NULL,'anonymousUser',1588815169802,'192.168.226.1','okhttp/3.12.0','/users/info/ovaet279xh','GET','type=%5Busername%5D',58,0),(31,'0','查询用户',NULL,'anonymousUser',1588833669658,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',415,0),(32,'0','查询用户',NULL,'anonymousUser',1588834054970,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',21,0),(33,'0','查询用户',NULL,'anonymousUser',1588834195723,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',35,0),(34,'0','查询用户',NULL,'anonymousUser',1588834279855,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',21,0),(35,'0','查询用户',NULL,'anonymousUser',1588834324058,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(36,'0','查询用户',NULL,'anonymousUser',1588834410656,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',16,0),(37,'0','查询用户',NULL,'anonymousUser',1588834435837,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',21,0),(38,'0','查询用户',NULL,'anonymousUser',1588834485321,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',15,0),(39,'0','查询用户',NULL,'anonymousUser',1588834773725,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',16,0),(40,'0','查询用户',NULL,'anonymousUser',1588834797682,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(41,'0','查询用户',NULL,'anonymousUser',1588835107720,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(42,'0','查询用户',NULL,'anonymousUser',1588835153548,'192.168.226.1','okhttp/3.12.0','/users/info/tre','GET','type=%5Busername%5D',7,0),(43,'0','查询用户',NULL,'anonymousUser',1588835163013,'192.168.226.1','okhttp/3.12.0','/users/info/er','GET','type=%5Busername%5D',6,0),(44,'0','查询用户',NULL,'anonymousUser',1588835175721,'192.168.226.1','okhttp/3.12.0','/users/info/fds','GET','type=%5Busername%5D',6,0),(45,'0','查询用户',NULL,'anonymousUser',1588835360142,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',19,0),(46,'0','查询用户',NULL,'anonymousUser',1588835661559,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',14,0),(47,'0','查询用户',NULL,'anonymousUser',1588836320660,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(48,'0','查询用户',NULL,'anonymousUser',1588836933049,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',250,0),(49,'0','查询用户',NULL,'anonymousUser',1588837056468,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',20,0),(50,'0','查询用户',NULL,'anonymousUser',1588837329445,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',17,0),(51,'0','查询用户',NULL,'anonymousUser',1588838468779,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',880,0),(52,'0','查询用户',NULL,'anonymousUser',1588838489859,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',12,0),(53,'0','查询用户',NULL,'anonymousUser',1588838558248,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',12,0),(54,'0','查询用户',NULL,'anonymousUser',1588839441045,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',10,0),(55,'0','查询用户',NULL,'anonymousUser',1588840302191,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',16,0),(56,'0','查询用户',NULL,'anonymousUser',1588901921379,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',422,0),(57,'0','查询用户',NULL,'anonymousUser',1588902079593,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',16,0),(58,'0','查询用户',NULL,'anonymousUser',1588902118193,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',8,0),(59,'0','查询用户',NULL,'anonymousUser',1588903370615,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',17,0),(60,'0','查询用户',NULL,'anonymousUser',1588904912303,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',54,0),(61,'0','查询用户',NULL,'anonymousUser',1588919653590,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',160,0),(62,'0','查询用户',NULL,'anonymousUser',1588919676295,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',28,0),(63,'0','查询用户',NULL,'anonymousUser',1588919714816,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',6,0),(64,'0','查询用户',NULL,'anonymousUser',1588919767834,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',6,0),(65,'0','查询用户',NULL,'anonymousUser',1588922140922,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',110,0),(66,'0','查询用户',NULL,'anonymousUser',1588922359255,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',19,0),(67,'0','查询用户',NULL,'anonymousUser',1588922474282,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',14,0),(68,'0','查询用户',NULL,'anonymousUser',1588922496677,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',18,0),(69,'0','查询用户',NULL,'anonymousUser',1588922560924,'192.168.226.1','okhttp/3.12.0','/users/info/admin','GET','type=%5Busername%5D',17,0);
 
 /*Table structure for table `sys_menu` */
 
@@ -154,7 +150,7 @@ DROP TABLE IF EXISTS `sys_menu`;
 
 CREATE TABLE `sys_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `name` varchar(32) NOT NULL COMMENT '菜单名称',
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
   `permission` varchar(32) DEFAULT NULL COMMENT '菜单权限标识',
   `path` varchar(128) DEFAULT NULL COMMENT '前端URL',
   `parent_id` int(11) DEFAULT NULL COMMENT '父菜单ID',
@@ -171,7 +167,7 @@ CREATE TABLE `sys_menu` (
 
 /*Data for the table `sys_menu` */
 
-insert  into `sys_menu`(`id`,`name`,`permission`,`path`,`parent_id`,`icon`,`component`,`sort`,`is_keep_alive`,`type`,`create_time`,`update_time`,`is_del`) values (1000,'权限管理',NULL,'/admin',-1,'icon-quanxianguanli',NULL,0,0,'0',NULL,NULL,0),(1100,'用户管理',NULL,'/admin/user/index',1000,'icon-yonghuguanli',NULL,1,0,'0',NULL,NULL,0),(1101,'用户新增','sys_user_add',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1102,'用户修改','sys_user_edit',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1103,'用户删除','sys_user_del',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1200,'菜单管理',NULL,'/admin/menu/index',1000,'icon-caidanguanli',NULL,2,0,'0',NULL,NULL,0),(1201,'菜单新增','sys_menu_add',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1202,'菜单修改','sys_menu_edit',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1203,'菜单删除','sys_menu_del',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1300,'角色管理',NULL,'/admin/role/index',1000,'icon-jiaoseguanli',NULL,3,0,'0',NULL,NULL,0),(1301,'角色新增','sys_role_add',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1302,'角色修改','sys_role_edit',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1303,'角色删除','sys_role_del',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1304,'分配权限','sys_role_perm',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1400,'部门管理',NULL,'/admin/dept/index',1000,'icon-web-icon-',NULL,4,0,'0',NULL,NULL,0),(1401,'部门新增','sys_dept_add',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1402,'部门修改','sys_dept_edit',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1403,'部门删除','sys_dept_del',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2000,'系统管理',NULL,'/setting',-1,'icon-xitongguanli',NULL,1,0,'0',NULL,NULL,0),(2100,'日志管理',NULL,'/admin/log/index',2000,'icon-rizhiguanli',NULL,5,0,'0',NULL,NULL,0),(2101,'日志删除','sys_log_del',NULL,2100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2200,'字典管理',NULL,'/admin/dict/index',2000,'icon-navicon-zdgl',NULL,6,0,'0',NULL,NULL,0),(2201,'字典删除','sys_dict_del',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2202,'字典新增','sys_dict_add',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2203,'字典修改','sys_dict_edit',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2300,'令牌管理',NULL,'/admin/token/index',2000,'icon-denglvlingpai',NULL,11,0,'0',NULL,NULL,0),(2301,'令牌删除','sys_token_del',NULL,2300,NULL,NULL,1,0,'1',NULL,NULL,0),(2400,'终端管理','','/admin/client/index',2000,'icon-shouji',NULL,9,0,'0',NULL,NULL,0),(2401,'客户端新增','sys_client_add',NULL,2400,'1',NULL,NULL,0,'1',NULL,NULL,0),(2402,'客户端修改','sys_client_edit',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2403,'客户端删除','sys_client_del',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2500,'服务监控',NULL,'http://127.0.0.1:5001',2000,'icon-server',NULL,10,0,'0',NULL,NULL,0),(3000,'开发平台',NULL,'/gen',-1,'icon-shejiyukaifa-',NULL,3,1,'0',NULL,NULL,0),(3100,'数据源管理',NULL,'/gen/datasource',3000,'icon-mysql',NULL,1,1,'0',NULL,NULL,0),(3200,'代码生成',NULL,'/gen/index',3000,'icon-weibiaoti46',NULL,2,0,'0',NULL,NULL,0),(3300,'表单管理',NULL,'/gen/form',3000,'icon-record',NULL,3,1,'0',NULL,NULL,0),(3301,'表单新增','gen_form_add',NULL,3300,'',NULL,0,0,'1',NULL,NULL,0),(3302,'表单修改','gen_form_edit',NULL,3300,'',NULL,1,0,'1',NULL,NULL,0),(3303,'表单删除','gen_form_del',NULL,3300,'',NULL,2,0,'1',NULL,NULL,0),(3400,'表单设计',NULL,'/gen/design',3000,'icon-biaodanbiaoqian',NULL,4,1,'0',NULL,NULL,0),(9999,'系统官网',NULL,'https://pig4cloud.com/#/',-1,'icon-guanwangfangwen',NULL,9,0,'0',NULL,NULL,0);
+insert  into `sys_menu`(`id`,`name`,`permission`,`path`,`parent_id`,`icon`,`component`,`sort`,`is_keep_alive`,`type`,`create_time`,`update_time`,`is_del`) values (1000,'权限管理',NULL,'/admin',-1,'lock','Layout',0,0,'0',NULL,NULL,0),(1100,'用户管理',NULL,'/admin/user/index',1000,'user','user',1,0,'0',NULL,NULL,0),(1101,'用户新增','sys_user_add',NULL,1100,'',NULL,NULL,0,'1',NULL,NULL,0),(1102,'用户修改','sys_user_edit',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1103,'用户删除','sys_user_del',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1200,'菜单管理',NULL,'/admin/menu/index',1000,'menu','menu',2,0,'0',NULL,NULL,0),(1201,'菜单新增','sys_menu_add',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1202,'菜单修改','sys_menu_edit',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1203,'菜单删除','sys_menu_del',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1300,'角色管理',NULL,'/admin/role/index',1000,'peoples','role',3,0,'0',NULL,NULL,0),(1301,'角色新增','sys_role_add',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1302,'角色修改','sys_role_edit',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1303,'角色删除','sys_role_del',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1304,'分配权限','sys_role_perm',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1400,'部门管理',NULL,'/admin/dept/index',1000,'dept','dept',4,0,'0',NULL,NULL,0),(1401,'部门新增','sys_dept_add',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1402,'部门修改','sys_dept_edit',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1403,'部门删除','sys_dept_del',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2000,'系统管理',NULL,'/setting',-1,'setting','Layout',1,0,'0',NULL,NULL,0),(2100,'日志管理',NULL,'/setting/log/index',2000,'log','log',5,0,'0',NULL,NULL,0),(2101,'日志删除','sys_log_del',NULL,2100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2200,'字典管理',NULL,'/setting/dict/index',2000,'dict','dict',6,0,'0',NULL,NULL,0),(2201,'字典删除','sys_dict_del',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2202,'字典新增','sys_dict_add',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2203,'字典修改','sys_dict_edit',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2300,'令牌管理',NULL,'/setting/token/index',2000,'token','token',11,0,'0',NULL,NULL,0),(2301,'令牌删除','sys_token_del',NULL,2300,NULL,NULL,1,0,'1',NULL,NULL,0),(2400,'终端管理','','/setting/client/index',2000,'client','client',9,0,'0',NULL,NULL,0),(2401,'客户端新增','sys_client_add',NULL,2400,'1',NULL,NULL,0,'1',NULL,NULL,0),(2402,'客户端修改','sys_client_edit',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2403,'客户端删除','sys_client_del',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2500,'服务监控',NULL,'http://127.0.0.1:5001',2000,'monitor',NULL,10,0,'0',NULL,NULL,0);
 
 /*Table structure for table `sys_role` */
 
@@ -180,7 +176,7 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色名',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `create_time` bigint(13) NOT NULL COMMENT '更新时间',
   `update_time` bigint(13) DEFAULT NULL COMMENT '更新时间',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
@@ -189,7 +185,7 @@ CREATE TABLE `sys_role` (
 
 /*Data for the table `sys_role` */
 
-insert  into `sys_role`(`id`,`name`,`remark`,`create_time`,`update_time`,`is_del`) values (1,'ROLE_ADMIN','管理员',20171029154551,20181226140911,0),(2,'ROLE_USER','普通用户',1111111111,11111111111,0);
+insert  into `sys_role`(`id`,`name`,`remarks`,`create_time`,`update_time`,`is_del`) values (1,'ROLE_ADMIN','管理员',20171029154551,20181226140911,0),(2,'ROLE_USER','普通用户',1111111111,11111111111,0);
 
 /*Table structure for table `sys_role_menu` */
 
@@ -236,7 +232,7 @@ CREATE TABLE `sys_user` (
   `nickname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '昵称',
   `phone` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '头像',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `dept_id` int(11) DEFAULT NULL COMMENT '部门ID',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(13) DEFAULT NULL COMMENT '修改时间',
@@ -248,7 +244,7 @@ CREATE TABLE `sys_user` (
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remark`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','',NULL,1,NULL,NULL,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,NULL,NULL,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,NULL,NULL,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,NULL,NULL,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,0,0,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,0,0,0,0),(17,'ovaet279xh','$2a$10$yEVrQU6mBBxboscRmv9C1e8Y8dxbWTs.ztUUKIs3h27lu1rXKs5Ki','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,10,0,0,0,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remarks`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','fsdf','fsdfsd',1,1588995163241,1588995163241,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,1588995163241,1588995163241,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,1588995163241,1588995163241,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,1588995163241,1588995163241,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,1588995163241,1588995163241,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,1588995163241,1588995163241,0,0),(17,'ovaet279xh','$2a$10$yEVrQU6mBBxboscRmv9C1e8Y8dxbWTs.ztUUKIs3h27lu1rXKs5Ki','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,10,1588995163241,1588995163241,0,0);
 
 /*Table structure for table `sys_user_role` */
 
@@ -262,7 +258,7 @@ CREATE TABLE `sys_user_role` (
 
 /*Data for the table `sys_user_role` */
 
-insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1);
+insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1),(1,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
