@@ -27,7 +27,7 @@ public class SysRole implements Serializable {
     @TableField(fill = FieldFill.INSERT)
     private Long createTime;
 
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
     @TableField("is_del")

@@ -1,22 +1,24 @@
 package com.zhb.ice.system.service.impl;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.ArrayUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhb.ice.common.core.constant.Status;
+import com.zhb.ice.common.core.exception.BaseException;
+import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
-import com.zhb.ice.system.api.entity.SysMenu;
-import com.zhb.ice.system.api.entity.SysRole;
-import com.zhb.ice.system.api.entity.SysSocialUser;
-import com.zhb.ice.system.api.entity.SysUser;
+import com.zhb.ice.system.api.entity.*;
 import com.zhb.ice.system.api.vo.SysUserVO;
 import com.zhb.ice.system.mapper.SysUserMapper;
-import com.zhb.ice.system.service.SysMenuService;
-import com.zhb.ice.system.service.SysRoleService;
-import com.zhb.ice.system.service.SysSocialUserService;
-import com.zhb.ice.system.service.SysUserService;
+import com.zhb.ice.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.zhb.ice.common.core.constant.SecurityConstants.DEFAULT_REGISTER_ROLE_ID;
 
 /**
  * @Author zhb
@@ -39,6 +43,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysMenuService sysMenuService;
 
     private final SysSocialUserService sysSocialUserService;
+
+    private final SysUserRoleService sysUserRoleService;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserInfo getUserInfo(SysUser sysUser) {
@@ -71,18 +79,117 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional
     public void register(SysUser sysUser, SysSocialUser sysSocialUser) {
 
-        this.save(sysUser);
+        if (!this.save(sysUser)) {
+            throw new BaseException(Status.SAVE_ERROR);
+        }
+
         sysSocialUser.setUid(sysUser.getId());
-        sysSocialUserService.save(sysSocialUser);
+        if (!sysSocialUserService.save(sysSocialUser)) {
+            throw new BaseException(Status.SAVE_ERROR);
+        }
+
+        if (!sysUserRoleService.save(new SysUserRole(sysUser.getId(), DEFAULT_REGISTER_ROLE_ID))) {
+            throw new BaseException(Status.SAVE_ERROR);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void register(SysUserDto sysUserDto) {
+
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.<SysUser>query()
+                .lambda()
+                .eq(SysUser::getUsername, sysUserDto.getUsername())
+                .or()
+                .eq(SysUser::getPhone, sysUserDto.getPhone());
+        SysUser sysUser = this.getOne(wrapper);
+        //查询用户名或者手机号是被被注册
+        if (sysUser != null) {
+            throw new BaseException(Status.USERNAME_OR_PHONE_EXIST);
+        }
+        //密码加密
+        sysUserDto.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
+        if (!this.save(sysUserDto)) {
+            throw new BaseException(Status.SAVE_ERROR);
+        }
+
+        List<Integer> roleIds = sysUserDto.getRoleIds();
+        //角色为空则注册为普通用户
+        if (roleIds == null) {
+            sysUserRoleService.save(new SysUserRole(sysUserDto.getId(), DEFAULT_REGISTER_ROLE_ID));
+        } else {
+            addRolesByAdmin(sysUserDto, roleIds);
+        }
+    }
+
+    /**
+     * @Description //TODO 有用户新增权限才能添加角色，匿名用户注册只能为普通用户
+     * @Date 2020/5/11 16:16
+     **/
+    @PreAuthorize("@ice.hasPermission('sys_user_add')")
+    private void addRolesByAdmin(SysUserDto sysUserDto, List<Integer> roleIds) {
+        List<SysUserRole> sysUserRoles = ListUtil.list(false);
+        roleIds.forEach(roleId -> sysUserRoles.add(new SysUserRole(sysUserDto.getId(), roleId)));
+        if (!sysUserRoleService.saveBatch(sysUserRoles)) {
+            throw new BaseException(Status.SAVE_ERROR);
+        }
     }
 
     @Override
     public IPage pageByQuery(Page page, SysUser sysUser) {
-        return this.baseMapper.pageByQuery(page,sysUser);
+        return this.baseMapper.pageByQuery(page, sysUser);
     }
 
     @Override
     public SysUserVO getById(Integer id) {
         return this.baseMapper.selectById(id);
+    }
+
+    @Override
+    public void delById(Integer id) {
+        if (!this.removeById(id)) {
+            throw new BaseException(Status.REMOVE_ERROR);
+        }
+
+        //有可能用户没绑定第三方用户，则不判断
+        sysSocialUserService.remove(
+                Wrappers
+                        .<SysSocialUser>query()
+                        .lambda()
+                        .eq(SysSocialUser::getUid, id));
+
+    }
+
+    @Override
+    public void delByIds(List<Integer> ids) {
+        if (!this.removeByIds(ids)) {
+            throw new BaseException(Status.REMOVE_ERROR);
+        }
+
+        //有可能用户没绑定第三方用户，则不判断
+        sysSocialUserService.remove(Wrappers
+                .<SysSocialUser>query()
+                .lambda()
+                .in(SysSocialUser::getUid, ids));
+    }
+
+    @Override
+    @Transactional
+    public void update(SysUserDto sysUserDto) {
+        if (!this.updateById(sysUserDto)) {
+            throw new BaseException(Status.UPDATE_ERROR);
+        }
+
+        List<Integer> roleIds = sysUserDto.getRoleIds();
+
+        List<SysUserRole> sysUserRoles = ListUtil.list(false);
+        roleIds.forEach(roleId -> sysUserRoles.add(new SysUserRole(sysUserDto.getId(), roleId)));
+
+        sysUserRoleService.remove(Wrappers
+                .<SysUserRole>query()
+                .lambda()
+                .eq(SysUserRole::getUserId, sysUserDto.getId()));
+
+        sysUserRoleService.saveBatch(sysUserRoles);
     }
 }

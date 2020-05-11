@@ -10,6 +10,7 @@
         `sys_social_user` ssu
         Inner join `sys_user` su
         on ssu.`uid` = su.`id`
-        where open_id = #{openId}
+        where ssu.is_del = false
+        AND open_id = #{openId}
     </select>
 </mapper>

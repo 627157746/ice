@@ -24,7 +24,7 @@ public class SysDept {
     @TableField(fill = FieldFill.INSERT)
     private Long createTime;
 
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
     private Integer parentId;

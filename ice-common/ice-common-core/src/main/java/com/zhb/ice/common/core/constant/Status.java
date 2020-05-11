@@ -84,6 +84,11 @@ public enum Status implements IStatus {
     PARAM_NOT_NULL(400, "参数不能为空！"),
 
     /**
+     * 用户名或者手机号已注册！
+     */
+    USERNAME_OR_PHONE_EXIST(400, "用户名或者手机号已注册！"),
+
+    /**
      * token过期或者token无效
      */
     TOKEN_INVALID(5000, "登录过期，请重新登录！"),

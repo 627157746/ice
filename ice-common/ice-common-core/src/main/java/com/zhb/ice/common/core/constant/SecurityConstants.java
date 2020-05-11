@@ -30,6 +30,8 @@ public class SecurityConstants {
 
     public static final String FROM_K = "from";
 
+    public static final Integer DEFAULT_REGISTER_ROLE_ID = 2;
+
     public static final String DEFAULT_CLIENT_ID = "admin";
 
     public static final String DEFAULT_CLIENT_SECRET = "123456";

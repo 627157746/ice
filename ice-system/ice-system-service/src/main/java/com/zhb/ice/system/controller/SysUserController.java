@@ -8,6 +8,7 @@ import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.R;
 import com.zhb.ice.common.security.annotation.Ignore;
 import com.zhb.ice.system.api.dto.SysSocialUserDTO;
+import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.service.SysSocialUserService;
@@ -15,7 +16,11 @@ import com.zhb.ice.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.zhb.ice.common.core.constant.SecurityConstants.PHONE;
 import static com.zhb.ice.common.core.constant.SecurityConstants.USERNAME;
@@ -38,15 +43,6 @@ public class SysUserController {
     @Value("${server.port}")
     int port;
 
-    /**
-     * @Description //TODO 分页条件查询
-     * @Date  2020/5/9 14:26
-     **/
-    @GetMapping
-    public R pageByQuery(Page page, SysUser sysUser){
-        return R.ofSuccess(sysUserService.pageByQuery(page,sysUser));
-    }
-
     @GetMapping("/{id}")
     public R getById(@PathVariable("id")Integer id){
         return R.ofSuccess(sysUserService.getById(id));
@@ -62,7 +58,6 @@ public class SysUserController {
         sysUserService.register(sysUserDto.getSysUser(), sysUserDto.getSysSocialUser());
         return R.ofSuccess();
     }
-
 
     /**
      * @Description //TODO 通过openId查询用户
@@ -99,5 +94,40 @@ public class SysUserController {
             return R.ofStatus(Status.NOT_FOUND_DATA);
         }
         return R.ofSuccess(sysUserService.getUserInfo(sysUser));
+    }
+
+    /**
+     * @Description //TODO 分页条件查询
+     * @Date  2020/5/9 14:26
+     **/
+    @GetMapping
+    public R pageByQuery(Page page, SysUser sysUser){
+        return R.ofSuccess(sysUserService.pageByQuery(page,sysUser));
+    }
+
+    @PostMapping
+    public R register(@Validated @RequestBody SysUserDto sysUserDto){
+        sysUserService.register(sysUserDto);
+        return R.ofSuccess();
+    }
+    @PutMapping
+    @PreAuthorize("@ice.hasPermission('sys_user_edit')")
+    public R updateById(@RequestBody SysUserDto sysUserDto){
+        sysUserService.update(sysUserDto);
+        return R.ofSuccess();
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_user_del')")
+    public R delById(@PathVariable("id") Integer id){
+        sysUserService.delById(id);
+        return R.ofSuccess();
+    }
+
+    @PostMapping("/batch/delete")
+    @PreAuthorize("@ice.hasPermission('sys_user_del')")
+    public R delByIds(@RequestBody List<Integer> ids){
+        sysUserService.delByIds(ids);
+        return R.ofSuccess();
     }
 }

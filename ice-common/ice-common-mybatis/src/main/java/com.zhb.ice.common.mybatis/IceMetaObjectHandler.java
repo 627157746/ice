@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 public class IceMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
-        this.strictInsertFill(metaObject, "createTime", Long.class, System.currentTimeMillis());
+        long currentTime = System.currentTimeMillis();
+        this.strictInsertFill(metaObject, "createTime", Long.class, currentTime);
+        this.strictInsertFill(metaObject, "updateTime", Long.class, currentTime);
     }
 
     @Override

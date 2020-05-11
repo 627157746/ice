@@ -12,9 +12,7 @@ import me.zhyd.oauth.config.AuthDefaultSource;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,7 +38,7 @@ public class JustAuthController {
      * @Description //TODO 返回第三方登录界面
      * @Date 2020/4/25 18:45
      **/
-    @RequestMapping("/login/{authType}")
+    @GetMapping("/login/{authType}")
     public void renderAuth(@PathVariable String authType, HttpServletResponse response) throws IOException {
         AuthRequest authRequest = getAuthRequest(authType);
         response.sendRedirect(authRequest.authorize(AuthStateUtils.createState()));
@@ -50,7 +48,7 @@ public class JustAuthController {
      * @Description //TODO 回调接口
      * @Date 2020/4/25 18:45
      **/
-    @RequestMapping("/{authType}/callback")
+    @GetMapping("/{authType}/callback")
     public R<Map<String, Object>> login(@PathVariable String authType, AuthCallback callback) {
         return R.ofSuccess(justAuthService.login(callback, getAuthRequest(authType)));
     }
