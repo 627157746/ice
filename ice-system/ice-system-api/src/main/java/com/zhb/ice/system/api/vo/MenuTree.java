@@ -3,6 +3,7 @@ package com.zhb.ice.system.api.vo;
 import com.zhb.ice.system.api.entity.SysMenu;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -12,12 +13,13 @@ import java.io.Serializable;
  * @Date 2020/5/6 14:43
  */
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class MenuTree extends TreeNode implements Serializable {
 
     private String name;
 
-//    private String permission;
+    private String permission;
 
     private String path;
 
@@ -27,9 +29,15 @@ public class MenuTree extends TreeNode implements Serializable {
 
     private Integer sort;
 
-    private Boolean keepAlive;
+    private Boolean noCache;
 
-//    private String type;
+    private Boolean hidden;
+
+    private String type;
+
+    private Long createTime;
+
+    private Long updateTime;
 
     public MenuTree(SysMenu sysMenu) {
         this.id = sysMenu.getId();
@@ -38,9 +46,8 @@ public class MenuTree extends TreeNode implements Serializable {
         this.component = sysMenu.getComponent();
         this.name = sysMenu.getName();
         this.path = sysMenu.getPath();
-//        this.type = sysMenu.getType();
-//        this.permission = sysMenu.getPermission();
         this.sort = sysMenu.getSort();
-        this.keepAlive = sysMenu.getKeepAlive();
+        this.noCache = sysMenu.getNoCache();
+        this.hidden = sysMenu.getHidden();
     }
 }

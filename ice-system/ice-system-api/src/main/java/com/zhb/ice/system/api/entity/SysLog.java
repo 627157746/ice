@@ -43,7 +43,7 @@ public class SysLog implements Serializable {
 
     private Integer time;
 
-    @TableField("is_del")
+    @TableField(value = "is_del")
     @TableLogic
     private Boolean del;
 

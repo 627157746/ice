@@ -21,7 +21,7 @@ public class SysDept {
 
     private Integer sort;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,updateStrategy = FieldStrategy.NEVER)
     private Long createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
@@ -29,7 +29,7 @@ public class SysDept {
 
     private Integer parentId;
 
-    @TableField("is_del")
+    @TableField(value = "is_del")
     @TableLogic
     private Boolean del;
 }

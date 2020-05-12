@@ -1,5 +1,6 @@
 package com.zhb.ice.system.api.vo;
 
+import com.zhb.ice.system.api.entity.SysMenu;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;
@@ -71,5 +72,29 @@ public class TreeUtil {
             }
         }
         return treeNode;
+    }
+
+    public static List<MenuTree> buildTree(List<SysMenu> menus, Integer root) {
+
+        List<MenuTree> trees = new ArrayList<>();
+        MenuTree node;
+        for (SysMenu menu : menus) {
+            node = new MenuTree();
+            node.setId(menu.getId());
+            node.setParentId(menu.getParentId());
+            node.setName(menu.getName());
+            node.setPath(menu.getPath());
+            node.setPermission(menu.getPermission());
+            node.setComponent(menu.getComponent());
+            node.setIcon(menu.getIcon());
+            node.setType(menu.getType());
+            node.setSort(menu.getSort());
+            node.setNoCache(menu.getNoCache());
+            node.setHidden(menu.getHidden());
+            node.setCreateTime(menu.getCreateTime());
+            node.setUpdateTime(menu.getUpdateTime());
+            trees.add(node);
+        }
+        return TreeUtil.build(trees, root);
     }
 }

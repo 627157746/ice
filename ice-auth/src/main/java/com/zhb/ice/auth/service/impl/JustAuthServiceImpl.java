@@ -68,7 +68,7 @@ public class JustAuthServiceImpl implements JustAuthService {
                             .username(RandomUtil.randomString(10))
                             .avatar(data.getAvatar())
                             .password(passwordEncoder.encode(DEFAULT_REGISTER_PASSWORD))
-                            .deptId(10)
+                            .deptId(DEFAULT_DEPT_ID)
                             .build();
                     SysSocialUser sysSocialUser = SysSocialUser.builder()
                             .accessToken(authToken.getAccessToken())

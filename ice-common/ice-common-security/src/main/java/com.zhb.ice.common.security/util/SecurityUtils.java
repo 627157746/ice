@@ -25,23 +25,10 @@ public class SecurityUtils {
     /**
      * 获取用户
      */
-    public IceUser getUser(Authentication authentication) {
-        Object principal = authentication.getPrincipal();
-        if (principal instanceof IceUser) {
-            return (IceUser) principal;
-        }
-        return null;
-    }
-
-    /**
-     * 获取用户
-     */
     public IceUser getUser() {
         Authentication authentication = getAuthentication();
-        if (authentication == null) {
-            return null;
-        }
-        return getUser(authentication);
+        Object principal = authentication.getPrincipal();
+        return (IceUser) principal;
     }
 
     /**

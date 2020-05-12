@@ -17,7 +17,6 @@ import com.zhb.ice.system.mapper.SysUserMapper;
 import com.zhb.ice.system.service.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static com.zhb.ice.common.core.constant.SecurityConstants.DEFAULT_REGISTER_ROLE_ID;
+import static com.zhb.ice.common.core.constant.SecurityConstants.*;
 
 /**
  * @Author zhb
@@ -109,6 +108,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         //密码加密
         sysUserDto.setPassword(passwordEncoder.encode(sysUserDto.getPassword()));
+        if (sysUserDto.getDeptId() == null) {
+            sysUserDto.setDeptId(DEFAULT_DEPT_ID);
+        }
+        if (sysUserDto.getLockAccount() == null) {
+            sysUserDto.setLockAccount(false);
+        }
         if (!this.save(sysUserDto)) {
             throw new BaseException(Status.SAVE_ERROR);
         }
@@ -118,20 +123,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (roleIds == null) {
             sysUserRoleService.save(new SysUserRole(sysUserDto.getId(), DEFAULT_REGISTER_ROLE_ID));
         } else {
-            addRolesByAdmin(sysUserDto, roleIds);
-        }
-    }
-
-    /**
-     * @Description //TODO 有用户新增权限才能添加角色，匿名用户注册只能为普通用户
-     * @Date 2020/5/11 16:16
-     **/
-    @PreAuthorize("@ice.hasPermission('sys_user_add')")
-    private void addRolesByAdmin(SysUserDto sysUserDto, List<Integer> roleIds) {
-        List<SysUserRole> sysUserRoles = ListUtil.list(false);
-        roleIds.forEach(roleId -> sysUserRoles.add(new SysUserRole(sysUserDto.getId(), roleId)));
-        if (!sysUserRoleService.saveBatch(sysUserRoles)) {
-            throw new BaseException(Status.SAVE_ERROR);
+            List<SysUserRole> sysUserRoles = ListUtil.list(false);
+            roleIds.forEach(roleId -> sysUserRoles.add(new SysUserRole(sysUserDto.getId(), roleId)));
+            if (!sysUserRoleService.saveBatch(sysUserRoles)) {
+                throw new BaseException(Status.SAVE_ERROR);
+            }
         }
     }
 
@@ -147,6 +143,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void delById(Integer id) {
+        if (id.equals(ADMIN_USER_ID)) {
+            throw new BaseException(500,"管理员账户不允许被删除");
+        }
         if (!this.removeById(id)) {
             throw new BaseException(Status.REMOVE_ERROR);
         }
@@ -162,6 +161,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void delByIds(List<Integer> ids) {
+        if (ids.contains(ADMIN_USER_ID)){
+            throw new BaseException(500,"管理员账户不允许被删除");
+        }
         if (!this.removeByIds(ids)) {
             throw new BaseException(Status.REMOVE_ERROR);
         }

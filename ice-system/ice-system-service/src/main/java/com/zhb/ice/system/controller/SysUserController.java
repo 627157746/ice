@@ -5,17 +5,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zhb.ice.common.core.constant.Status;
+import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.common.core.util.R;
+import com.zhb.ice.common.core.validated.Insert;
+import com.zhb.ice.common.core.validated.Update;
 import com.zhb.ice.common.security.annotation.Ignore;
+import com.zhb.ice.common.security.util.SecurityUtils;
 import com.zhb.ice.system.api.dto.SysSocialUserDTO;
 import com.zhb.ice.system.api.dto.SysUserDto;
 import com.zhb.ice.system.api.dto.UserInfo;
 import com.zhb.ice.system.api.entity.SysUser;
+import com.zhb.ice.system.api.validated.Register;
+import com.zhb.ice.system.api.validated.UpdateUserInfo;
 import com.zhb.ice.system.service.SysSocialUserService;
 import com.zhb.ice.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +44,6 @@ public class SysUserController {
     private final SysUserService sysUserService;
 
     private final SysSocialUserService sysSocialUserService;
-
-    @Value("${server.port}")
-    int port;
-
-    @GetMapping("/{id}")
-    public R getById(@PathVariable("id")Integer id){
-        return R.ofSuccess(sysUserService.getById(id));
-    }
 
     /**
      * @Description //TODO 注册一个第三方用户
@@ -88,12 +85,20 @@ public class SysUserController {
                 .lambda()
                 .eq(type.equals(USERNAME), SysUser::getUsername, value)
                 .eq(type.equals(PHONE), SysUser::getPhone, value);
-        log.info("端口为:{}", port);
         SysUser sysUser = sysUserService.getOne(wrapper);
         if (sysUser == null) {
             return R.ofStatus(Status.NOT_FOUND_DATA);
         }
         return R.ofSuccess(sysUserService.getUserInfo(sysUser));
+    }
+
+    /**
+     * @Description //TODO id查询用户
+     * @Date  2020/5/12 14:24
+     **/
+    @GetMapping("/{id}")
+    public R getById(@PathVariable("id")Integer id){
+        return R.ofSuccess(sysUserService.getById(id));
     }
 
     /**
@@ -105,18 +110,56 @@ public class SysUserController {
         return R.ofSuccess(sysUserService.pageByQuery(page,sysUser));
     }
 
+    /**
+     * @Description //TODO 管理后台添加用户
+     * @Date  2020/5/12 14:21
+     **/
     @PostMapping
-    public R register(@Validated @RequestBody SysUserDto sysUserDto){
+    @PreAuthorize("@ice.hasPermission('sys_user_add')")
+    public R add(@Validated(Insert.class) @RequestBody SysUserDto sysUserDto){
         sysUserService.register(sysUserDto);
         return R.ofSuccess();
     }
+
+    /**
+     * @Description //TODO 匿名用户注册
+     * @Date  2020/5/12 14:21
+     **/
+    @PostMapping("/register")
+    @Ignore(false)
+    public R register(@Validated(Register.class) @RequestBody SysUserDto sysUserDto){
+        sysUserService.register(sysUserDto);
+        return R.ofSuccess();
+    }
+
+    /**
+     * @Description //TODO 管理后台修改用户信息
+     * @Date  2020/5/12 14:22
+     **/
     @PutMapping
     @PreAuthorize("@ice.hasPermission('sys_user_edit')")
-    public R updateById(@RequestBody SysUserDto sysUserDto){
+    public R updateById(@Validated(Update.class)@RequestBody SysUserDto sysUserDto){
         sysUserService.update(sysUserDto);
         return R.ofSuccess();
     }
 
+    /**
+     * @Description //TODO 用户自己修改自己信息
+     * @Date  2020/5/12 14:22
+     **/
+    @PutMapping("/info/update")
+    public R updateUserInfo(@Validated(UpdateUserInfo.class)@RequestBody SysUserDto sysUserDto){
+        sysUserDto.setId(SecurityUtils.getUser().getId());
+        if (!sysUserService.updateById(sysUserDto)) {
+            throw new BaseException(Status.UPDATE_ERROR);
+        }
+        return R.ofSuccess();
+    }
+
+    /**
+     * @Description //TODO 根据id删除用户
+     * @Date  2020/5/12 14:23
+     **/
     @DeleteMapping("/{id}")
     @PreAuthorize("@ice.hasPermission('sys_user_del')")
     public R delById(@PathVariable("id") Integer id){
@@ -124,6 +167,10 @@ public class SysUserController {
         return R.ofSuccess();
     }
 
+    /**
+     * @Description //TODO ids批量删除用户
+     * @Date  2020/5/12 14:23
+     **/
     @PostMapping("/batch/delete")
     @PreAuthorize("@ice.hasPermission('sys_user_del')")
     public R delByIds(@RequestBody List<Integer> ids){

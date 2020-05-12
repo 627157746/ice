@@ -26,6 +26,10 @@ public class SysMenuController {
 
     private final SysMenuService sysMenuService;
 
+    /**
+     * @Description //TODO 获取当前用户的菜单
+     * @Date  2020/5/12 15:26
+     **/
     @GetMapping
     public R getUserMenu(Integer parentId) {
 
@@ -34,5 +38,10 @@ public class SysMenuController {
         SecurityUtils.getRoles()
                 .forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
         return R.ofSuccess(sysMenuService.filterMenu(all, parentId));
+    }
+
+    @GetMapping("/tree")
+    public R getMenuTree(Integer parentId){
+        return R.ofSuccess(sysMenuService.menuTree(parentId));
     }
 }

@@ -17,4 +17,6 @@ public interface SysMenuService extends IService<SysMenu> {
     List<SysMenu> findMenuByRoleId(int roleId);
 
     List<MenuTree> filterMenu(Set<SysMenu> all, Integer parentId);
+
+    List<MenuTree> menuTree(Integer parentId);
 }

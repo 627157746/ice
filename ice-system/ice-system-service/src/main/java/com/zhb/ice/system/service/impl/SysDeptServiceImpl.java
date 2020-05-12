@@ -26,7 +26,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
     private List<DeptTree> getDeptTree(List<SysDept> depts) {
         List<DeptTree> treeList = depts.stream()
-                .filter(dept -> !dept.getDel().equals(dept.getParentId()))
+//                .filter(dept -> !dept.getDel().equals(dept.getParentId()))
                 .sorted(Comparator.comparingInt(SysDept::getSort))
                 .map(dept -> {
                     DeptTree node = new DeptTree();

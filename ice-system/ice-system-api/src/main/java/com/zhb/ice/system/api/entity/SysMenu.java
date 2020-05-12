@@ -34,18 +34,21 @@ public class SysMenu implements Serializable {
 
     private Integer sort;
 
-    @TableField("is_keep_alive")
-    private Boolean keepAlive;
+    @TableField("is_no_cache")
+    private Boolean noCache;
+
+    @TableField("is_hidden")
+    private Boolean hidden;
 
     private String type;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,updateStrategy = FieldStrategy.NEVER)
     private Long createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
-    @TableField("is_del")
+    @TableField(value = "is_del")
     @TableLogic
     private Boolean del;
 

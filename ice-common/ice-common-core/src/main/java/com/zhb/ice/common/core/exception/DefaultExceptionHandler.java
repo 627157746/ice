@@ -26,6 +26,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -45,7 +46,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public R exception(Exception e) {
-        log.error("全局异常信息 ex={}", e.getMessage());
+        log.error("全局异常信息 ex={} class={}", e.getMessage(),e.getClass());
         return R.ofError();
     }
 
@@ -83,7 +84,13 @@ public class DefaultExceptionHandler {
     @ExceptionHandler({BindException.class})
     public R exception(BindException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-        return R.ofMsg(fieldErrors.get(0).getDefaultMessage());
+        return R.of(Status.PARAM_NOT_MATCH.getCode(),fieldErrors.get(0).getDefaultMessage(),null);
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    public R exception(MethodArgumentNotValidException e) {
+        List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
+        return R.of(Status.PARAM_NOT_MATCH.getCode(),fieldErrors.get(0).getDefaultMessage(),null);
     }
 
 }

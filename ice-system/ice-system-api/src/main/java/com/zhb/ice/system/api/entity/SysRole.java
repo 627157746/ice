@@ -24,13 +24,13 @@ public class SysRole implements Serializable {
 
     private String remarks;
 
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT,updateStrategy = FieldStrategy.NEVER)
     private Long createTime;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateTime;
 
-    @TableField("is_del")
+    @TableField(value = "is_del")
     @TableLogic
     private Boolean del;
 }

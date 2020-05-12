@@ -1,9 +1,10 @@
 package com.zhb.ice.system.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhb.ice.common.core.constant.MenuTypeEnum;
-import com.zhb.ice.system.api.vo.MenuTree;
 import com.zhb.ice.system.api.entity.SysMenu;
+import com.zhb.ice.system.api.vo.MenuTree;
 import com.zhb.ice.system.api.vo.TreeUtil;
 import com.zhb.ice.system.mapper.SysMenuMapper;
 import com.zhb.ice.system.service.SysMenuService;
@@ -40,5 +41,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .collect(Collectors.toList());
         Integer parent = parentId == null ? -1 : parentId;
         return TreeUtil.build(menuTreeList, parent);
+    }
+
+    @Override
+    public List<MenuTree> menuTree(Integer parentId) {
+        return TreeUtil.buildTree(baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery()
+                .orderByAsc(SysMenu::getSort)), -1);
     }
 }
