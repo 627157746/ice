@@ -1,8 +1,11 @@
 package com.zhb.ice.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zhb.ice.common.core.constant.MenuTypeEnum;
+import com.zhb.ice.common.core.constant.Status;
+import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.system.api.entity.SysMenu;
 import com.zhb.ice.system.api.vo.MenuTree;
 import com.zhb.ice.system.api.vo.TreeUtil;
@@ -28,7 +31,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private final SysMenuMapper sysMenuMapper;
 
     @Override
-    public List<SysMenu> findMenuByRoleId(int roleId) {
+    public List<SysMenu> findMenuByRoleId(Integer roleId) {
         return sysMenuMapper.listMenusByRoleId(roleId);
     }
 
@@ -44,8 +47,29 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public List<MenuTree> menuTree(Integer parentId) {
-        return TreeUtil.buildTree(baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery()
-                .orderByAsc(SysMenu::getSort)), -1);
+    public List<MenuTree> menuTree(Boolean isAll,Integer parentId) {
+        LambdaQueryWrapper<SysMenu> sysMenuLambdaQueryWrapper;
+        if (isAll){
+            sysMenuLambdaQueryWrapper= Wrappers.<SysMenu>lambdaQuery()
+                    .orderByAsc(SysMenu::getSort);
+        }else {
+            sysMenuLambdaQueryWrapper= Wrappers.<SysMenu>lambdaQuery()
+                    .eq(SysMenu::getType,MenuTypeEnum.LEFT_MENU.getType())
+                    .orderByAsc(SysMenu::getSort);
+        }
+        return TreeUtil.buildTree(baseMapper.selectList(sysMenuLambdaQueryWrapper), -1);
+    }
+
+    @Override
+    public void delById(Integer id) {
+        //查询是否存在子菜单
+        SysMenu existChildrenMenu = this.getOne(Wrappers.<SysMenu>lambdaQuery()
+                .eq(SysMenu::getParentId, id));
+        if (existChildrenMenu!=null) {
+            throw new BaseException(Status.BAD_REQUEST.getCode(),"请先删除子菜单，在删除父菜单");
+        }
+        if (!this.removeById(id)) {
+            throw new BaseException(Status.REMOVE_ERROR);
+        }
     }
 }

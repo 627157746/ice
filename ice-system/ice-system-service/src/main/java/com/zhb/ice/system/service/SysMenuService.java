@@ -14,9 +14,11 @@ import java.util.Set;
  */
 public interface SysMenuService extends IService<SysMenu> {
 
-    List<SysMenu> findMenuByRoleId(int roleId);
+    List<SysMenu> findMenuByRoleId(Integer roleId);
 
     List<MenuTree> filterMenu(Set<SysMenu> all, Integer parentId);
 
-    List<MenuTree> menuTree(Integer parentId);
+    List<MenuTree> menuTree(Boolean isAll,Integer parentId);
+
+    void delById(Integer id);
 }
