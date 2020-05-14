@@ -1,5 +1,6 @@
 package com.zhb.ice.system.controller;
 
+import com.zhb.ice.common.core.constant.Status;
 import com.zhb.ice.common.core.util.R;
 import com.zhb.ice.common.core.validated.Insert;
 import com.zhb.ice.common.core.validated.Update;
@@ -74,7 +75,7 @@ public class SysMenuController {
     @PreAuthorize("@ice.hasPermission('sys_menu_edit')")
     public R updateById(@Validated(Update.class)@RequestBody SysMenu sysMenu){
         if (!sysMenuService.updateById(sysMenu)) {
-            return R.ofError();
+            return R.ofStatus(Status.SAVE_ERROR);
         }
         return R.ofSuccess();
     }

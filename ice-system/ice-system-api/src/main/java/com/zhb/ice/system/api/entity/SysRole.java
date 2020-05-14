@@ -1,9 +1,13 @@
 package com.zhb.ice.system.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.zhb.ice.common.core.validated.Insert;
+import com.zhb.ice.common.core.validated.Update;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -18,8 +22,10 @@ public class SysRole implements Serializable {
 
 
     @TableId(value = "id", type = IdType.AUTO)
+    @NotNull(groups = {Update.class},message = "主键不能为空！")
     private Integer id;
 
+    @NotEmpty(groups = {Insert.class},message = "角色名不能为空！")
     private String name;
 
     private String remarks;

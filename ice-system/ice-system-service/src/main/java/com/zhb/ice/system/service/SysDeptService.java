@@ -12,5 +12,7 @@ import java.util.List;
  * @Date 2020/5/8 16:41
  */
 public interface SysDeptService  extends IService<SysDept> {
-    List<DeptTree> listDeptTrees();
+    List<DeptTree> listDeptTrees(Integer id);
+
+    void delById(Integer id);
 }

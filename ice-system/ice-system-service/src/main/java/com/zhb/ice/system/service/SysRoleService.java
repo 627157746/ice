@@ -13,4 +13,9 @@ import java.util.List;
 public interface SysRoleService extends IService<SysRole> {
     List<SysRole> findRolesByUserId(int userId);
 
+    List<Integer> getMenuIdsById(Integer id);
+
+    void delById(Integer id);
+
+    void updateRoleMenuById(Integer id, List<Integer> menuIds);
 }

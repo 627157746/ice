@@ -15,4 +15,14 @@ import java.io.Serializable;
 public class DeptTree extends TreeNode implements Serializable {
 
     private String label;
+
+    private String name;
+
+    private Integer sort;
+
+    private Boolean disabled;
+
+    private Long createTime;
+
+    private Long updateTime;
 }

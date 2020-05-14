@@ -48,7 +48,6 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 
     @Override
     public R<UserInfo> info(String username, String type, String from) {
-        log.error("feign ice-system-service服务请求失败");
         return R.ofStatus(Status.ERROR);
     }
 
