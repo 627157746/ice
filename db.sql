@@ -50,11 +50,11 @@ CREATE TABLE `sys_dept` (
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部门管理';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部门管理';
 
 /*Data for the table `sys_dept` */
 
-insert  into `sys_dept`(`id`,`name`,`sort`,`create_time`,`update_time`,`is_del`,`parent_id`) values (1,'总经办',0,1588995163241,1588995163241,0,0),(2,'行政中心',1,1588995163241,1588995163241,0,1),(3,'技术中心',2,1588995163241,1588995163241,0,1),(4,'运营中心',3,1588995163241,1588995163241,0,1),(5,'研发中心',5,1588995163241,1588995163241,0,3),(6,'产品中心',6,1588995163241,1588995163241,0,3),(7,'测试中心',7,1588995163241,1588995163241,0,3);
+insert  into `sys_dept`(`id`,`name`,`sort`,`create_time`,`update_time`,`is_del`,`parent_id`) values (1,'总部',0,1111111111111,1589442753060,0,0),(2,'默认部门',1,1111111111111,1111111111111,0,1),(8,'销售',2,1589443716571,1589443738495,1,2);
 
 /*Table structure for table `sys_dept_relation` */
 
@@ -78,12 +78,11 @@ DROP TABLE IF EXISTS `sys_dict`;
 
 CREATE TABLE `sys_dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典名称',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
   `create_time` bigint(13) NOT NULL COMMENT '创建时间',
   `update_time` bigint(13) NOT NULL COMMENT '更新时间',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `system` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sys_dict_del_flag` (`is_del`) USING BTREE
@@ -97,15 +96,14 @@ DROP TABLE IF EXISTS `sys_dict_item`;
 
 CREATE TABLE `sys_dict_item` (
   `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `dict_id` int(11) NOT NULL,
   `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` int(10) NOT NULL DEFAULT '0' COMMENT '排序（升序）',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `create_time` bigint(20) NOT NULL COMMENT '创建时间',
   `update_time` bigint(20) NOT NULL COMMENT '更新时间',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dict_id` int(11) NOT NULL,
   `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sys_dict_value` (`value`) USING BTREE,
@@ -150,24 +148,26 @@ DROP TABLE IF EXISTS `sys_menu`;
 
 CREATE TABLE `sys_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '菜单ID',
-  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
-  `permission` varchar(32) DEFAULT NULL COMMENT '菜单权限标识',
-  `path` varchar(128) DEFAULT NULL COMMENT '前端URL',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
+  `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单权限标识',
+  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '前端URL',
   `parent_id` int(11) DEFAULT NULL COMMENT '父菜单ID',
-  `icon` varchar(32) DEFAULT NULL COMMENT '图标',
-  `component` varchar(64) DEFAULT NULL COMMENT 'VUE页面',
-  `sort` int(11) DEFAULT '1' COMMENT '排序值',
-  `is_keep_alive` tinyint(1) DEFAULT '0' COMMENT '0-开启，1- 关闭',
-  `type` char(1) DEFAULT NULL COMMENT '菜单类型 （0菜单 1按钮）',
+  `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '图标',
+  `route_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路由名称',
+  `component` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'VUE页面',
+  `sort` int(11) DEFAULT '999' COMMENT '排序值',
+  `is_no_cache` tinyint(1) DEFAULT '0' COMMENT '0-开启，1- 关闭',
+  `is_hidden` tinyint(1) DEFAULT '0',
+  `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单类型 （0菜单 1按钮）',
   `create_time` bigint(13) DEFAULT NULL COMMENT '创建时间',
   `update_time` bigint(13) DEFAULT NULL COMMENT '更新时间',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '逻辑删除标记(0--正常 1--删除)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=10015 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
 
 /*Data for the table `sys_menu` */
 
-insert  into `sys_menu`(`id`,`name`,`permission`,`path`,`parent_id`,`icon`,`component`,`sort`,`is_keep_alive`,`type`,`create_time`,`update_time`,`is_del`) values (1000,'权限管理',NULL,'/admin',-1,'lock','Layout',0,0,'0',NULL,NULL,0),(1100,'用户管理',NULL,'/admin/user/index',1000,'user','user',1,0,'0',NULL,NULL,0),(1101,'用户新增','sys_user_add',NULL,1100,'',NULL,NULL,0,'1',NULL,NULL,0),(1102,'用户修改','sys_user_edit',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1103,'用户删除','sys_user_del',NULL,1100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1200,'菜单管理',NULL,'/admin/menu/index',1000,'menu','menu',2,0,'0',NULL,NULL,0),(1201,'菜单新增','sys_menu_add',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1202,'菜单修改','sys_menu_edit',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1203,'菜单删除','sys_menu_del',NULL,1200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1300,'角色管理',NULL,'/admin/role/index',1000,'peoples','role',3,0,'0',NULL,NULL,0),(1301,'角色新增','sys_role_add',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1302,'角色修改','sys_role_edit',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1303,'角色删除','sys_role_del',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1304,'分配权限','sys_role_perm',NULL,1300,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1400,'部门管理',NULL,'/admin/dept/index',1000,'dept','dept',4,0,'0',NULL,NULL,0),(1401,'部门新增','sys_dept_add',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1402,'部门修改','sys_dept_edit',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(1403,'部门删除','sys_dept_del',NULL,1400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2000,'系统管理',NULL,'/setting',-1,'setting','Layout',1,0,'0',NULL,NULL,0),(2100,'日志管理',NULL,'/setting/log/index',2000,'log','log',5,0,'0',NULL,NULL,0),(2101,'日志删除','sys_log_del',NULL,2100,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2200,'字典管理',NULL,'/setting/dict/index',2000,'dict','dict',6,0,'0',NULL,NULL,0),(2201,'字典删除','sys_dict_del',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2202,'字典新增','sys_dict_add',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2203,'字典修改','sys_dict_edit',NULL,2200,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2300,'令牌管理',NULL,'/setting/token/index',2000,'token','token',11,0,'0',NULL,NULL,0),(2301,'令牌删除','sys_token_del',NULL,2300,NULL,NULL,1,0,'1',NULL,NULL,0),(2400,'终端管理','','/setting/client/index',2000,'client','client',9,0,'0',NULL,NULL,0),(2401,'客户端新增','sys_client_add',NULL,2400,'1',NULL,NULL,0,'1',NULL,NULL,0),(2402,'客户端修改','sys_client_edit',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2403,'客户端删除','sys_client_del',NULL,2400,NULL,NULL,NULL,0,'1',NULL,NULL,0),(2500,'服务监控',NULL,'http://127.0.0.1:5001',2000,'monitor',NULL,10,0,'0',NULL,NULL,0);
+insert  into `sys_menu`(`id`,`name`,`permission`,`path`,`parent_id`,`icon`,`route_name`,`component`,`sort`,`is_no_cache`,`is_hidden`,`type`,`create_time`,`update_time`,`is_del`) values (1000,'权限管理',NULL,'/admin',-1,'lock','Admin','Layout',0,0,0,'0',1588748371387,1588748371387,0),(1100,'用户管理',NULL,'/admin/user/index',1000,'user','User','User',1,0,0,'0',1588748371387,1588748371387,0),(1101,'用户新增','sys_user_add',NULL,1100,'',NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1102,'用户修改','sys_user_edit',NULL,1100,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1103,'用户删除','sys_user_del',NULL,1100,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1200,'菜单管理',NULL,'/admin/menu/index',1000,'menu','Menu','Menu',2,0,0,'0',1588748371387,1588748371387,0),(1201,'菜单新增','sys_menu_add',NULL,1200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1202,'菜单修改','sys_menu_edit',NULL,1200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1203,'菜单删除','sys_menu_del',NULL,1200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1300,'角色管理',NULL,'/admin/role/index',1000,'peoples','Role','Role',3,0,0,'0',1588748371387,1588748371387,0),(1301,'角色新增','sys_role_add',NULL,1300,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1302,'角色修改','sys_role_edit',NULL,1300,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1303,'角色删除','sys_role_del',NULL,1300,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1400,'部门管理',NULL,'/admin/dept/index',1000,'dept','Dept','Dept',4,0,0,'0',1588748371387,1588748371387,0),(1401,'部门新增','sys_dept_add',NULL,1400,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1402,'部门修改','sys_dept_edit',NULL,1400,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(1403,'部门删除','sys_dept_del',NULL,1400,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2000,'系统管理',NULL,'/setting',-1,'setting','Setting','Layout',1,0,0,'0',1588748371387,1588748371387,0),(2100,'日志管理',NULL,'/setting/log/index',2000,'log','Log','Log',5,0,0,'0',1588748371387,1588748371387,0),(2101,'日志删除','sys_log_del',NULL,2100,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2200,'字典管理',NULL,'/setting/dict/index',2000,'dict','Dict','Dict',6,0,0,'0',1588748371387,1588748371387,0),(2201,'字典删除','sys_dict_del',NULL,2200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2202,'字典新增','sys_dict_add',NULL,2200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2203,'字典修改','sys_dict_edit',NULL,2200,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2300,'令牌管理',NULL,'/setting/token/index',2000,'token','Token','Token',11,0,0,'0',1588748371387,1588748371387,0),(2301,'令牌删除','sys_token_del',NULL,2300,NULL,NULL,NULL,1,0,0,'1',1588748371387,1588748371387,0),(2400,'终端管理','','/setting/client/index',2000,'client','Client','Client',9,0,0,'0',1588748371387,1588748371387,0),(2401,'客户端新增','sys_client_add',NULL,2400,'',NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2402,'客户端修改','sys_client_edit',NULL,2400,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2403,'客户端删除','sys_client_del',NULL,2400,NULL,NULL,NULL,999,0,0,'1',1588748371387,1588748371387,0),(2500,'服务监控',NULL,'http://127.0.0.1:5001',2000,'monitor',NULL,NULL,10,0,0,'0',1588748371387,1588748371387,0),(10014,'Nacos',NULL,'http://127.0.0.1:8848/nacos',2000,'bug',NULL,NULL,13,0,0,'0',1589447475380,1589447475380,0);
 
 /*Table structure for table `sys_role` */
 
@@ -181,7 +181,7 @@ CREATE TABLE `sys_role` (
   `update_time` bigint(13) DEFAULT NULL COMMENT '更新时间',
   `is_del` tinyint(1) DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色表';
 
 /*Data for the table `sys_role` */
 
@@ -199,7 +199,7 @@ CREATE TABLE `sys_role_menu` (
 
 /*Data for the table `sys_role_menu` */
 
-insert  into `sys_role_menu`(`role_id`,`menu_id`) values (1,1000),(1,1100),(1,1101),(1,1102),(1,1103),(1,1200),(1,1201),(1,1202),(1,1203),(1,1300),(1,1301),(1,1302),(1,1303),(1,1304),(1,1400),(1,1401),(1,1402),(1,1403),(1,2000),(1,2100),(1,2101),(1,2200),(1,2201),(1,2202),(1,2203),(1,2300),(1,2301),(1,2400),(1,2401),(1,2402),(1,2403),(1,2500),(1,3000),(1,3100),(1,3200),(1,3300),(1,3301),(1,3302),(1,3303),(1,3400),(1,9999);
+insert  into `sys_role_menu`(`role_id`,`menu_id`) values (1,1000),(1,1100),(1,1101),(1,1102),(1,1103),(1,1200),(1,1201),(1,1202),(1,1203),(1,1300),(1,1301),(1,1302),(1,1303),(1,1400),(1,1401),(1,1402),(1,1403),(1,2000),(1,2100),(1,2101),(1,2200),(1,2201),(1,2202),(1,2203),(1,2300),(1,2301),(1,2400),(1,2401),(1,2402),(1,2403),(1,2500),(1,10014);
 
 /*Table structure for table `sys_social_user` */
 
@@ -212,14 +212,17 @@ CREATE TABLE `sys_social_user` (
   `refresh_token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'refresh_token',
   `open_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'open_id',
   `uid` int(11) DEFAULT NULL COMMENT 'uid',
+  `create_time` bigint(13) DEFAULT NULL,
+  `update_time` bigint(13) DEFAULT NULL,
+  `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `uid` (`uid`),
   CONSTRAINT `sys_social_user_ibfk_1` FOREIGN KEY (`uid`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 /*Data for the table `sys_social_user` */
 
-insert  into `sys_social_user`(`id`,`type`,`access_token`,`refresh_token`,`open_id`,`uid`) values (2,'QQ','D10A65312EE57D86EDC56C1CBD874947','112C5B864599059C582DA20CAA0642B1','40D878D357FC9308AE2FCE5B976DBEBC',15),(3,'QQ','08EB929AD448480FE446D248B4053599','93CE93D79603CA7B2E304630C53111F7','592B3D01CCCE2A7654CB18DAD8100F99',16),(4,'QQ','40DDF3FBF83175F0FC342E741F5672D7','81FD51B0A02AC0EFA9E62D657D6B1430','57D78F37619F49D2D5CDE9AD14280702',17);
+insert  into `sys_social_user`(`id`,`type`,`access_token`,`refresh_token`,`open_id`,`uid`,`create_time`,`update_time`,`is_del`) values (6,'QQ','40DDF3FBF83175F0FC342E741F5672D7','81FD51B0A02AC0EFA9E62D657D6B1430','57D78F37619F49D2D5CDE9AD14280702',23,1589188222928,NULL,1),(7,'QQ','40DDF3FBF83175F0FC342E741F5672D7','81FD51B0A02AC0EFA9E62D657D6B1430','57D78F37619F49D2D5CDE9AD14280702',24,1589188531795,NULL,1);
 
 /*Table structure for table `sys_user` */
 
@@ -240,11 +243,11 @@ CREATE TABLE `sys_user` (
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remarks`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','fsdf','fsdfsd',1,1588995163241,1588995163241,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,1,1588995163241,1588995163241,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,1,1588995163241,1588995163241,1,0),(14,'sdf','fsd','fsdfsd',NULL,NULL,NULL,NULL,1588995163241,1588995163241,0,0),(15,'x5qlnj75t0','$2a$10$KEm6N1oSgAQf./QwAaZLwuJE7bgFVxY0zDbA1gAC4P/792jd6SlXK','iceS',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=D7sSngx0CGDPOrrEAFUJOA&s=100&t=1555751467',NULL,10,1588995163241,1588995163241,0,0),(16,'580bp4r8ou','$2a$10$3TjrfhDX2MiOVyvr27N35O067WwnvOxhlUt8at4ymS1sbSDiVcl7i','忍i',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=jrD4gOYXdfiaE8gnDq5ejfQ&s=100&t=1555636918',NULL,10,1588995163241,1588995163241,0,0),(17,'ovaet279xh','$2a$10$yEVrQU6mBBxboscRmv9C1e8Y8dxbWTs.ztUUKIs3h27lu1rXKs5Ki','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,10,1588995163241,1588995163241,0,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remarks`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','fsdf','fsdfsd',2,1588995163241,1588995163241,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,2,1588995163241,1588995163241,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,2,1588995163241,1588995163241,1,0),(14,'sdf','fsd','fsdfsd','fds',NULL,NULL,2,1588995163241,1588995163241,0,0),(23,'angrc6dxyt','$2a$10$9GSTHz.GAV3gYA33Ustir.lJ5f6CwGNd39y8JK0oZkoCYrpnstie2','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188222920,NULL,0,0),(24,'tqrlouimcm','$2a$10$irCkXoFF7HBC3svfsLc.2.tBFvLb/QxCNneSdBfbVUVEjJYgR8BGK','04','hgf','http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188531781,1589254384982,0,0),(25,'vxc','$2a$10$sMiFMR.FL/9hVHFH0lyQU.P.cjbIt9ci9pYtDna.0s2n1ZYj/nRti','fds','11111',NULL,NULL,2,1589255341614,1589255341614,0,0),(26,'abcd','$2a$10$xO9oZcjMwGVJE.cGOqEM2epLEhTDL3zAb4zWBwheXHihtwdQA7Dfm','ices','123456',NULL,NULL,2,1589263378801,1589265524966,0,0),(27,'abcde','$2a$10$vYoi4DHRN4qq8nzm8Scp7OpE4cudD7TC/rvs5lX4hHi20PDid8oQa','ices','1234556',NULL,NULL,2,1589263462177,1589265534769,0,0),(28,'abcdeu','$2a$10$7CUmhQWDsIeNiaG3dqRK0epQEiR5WW0Cwpw5KvmMsa8wlUJvCXwoa','ices','12345567',NULL,NULL,2,1589263840306,1589265539232,0,1),(29,'dsf','$2a$10$0SfauX56U0qyTkIjzUi4R.hf8AW18p2phGeQ1qkOUIH/aKwpaQ2hS','df','vxc',NULL,NULL,2,1589333907549,1589333907549,0,0);
 
 /*Table structure for table `sys_user_role` */
 
@@ -253,12 +256,15 @@ DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `role_id` int(11) NOT NULL COMMENT '角色ID',
-  PRIMARY KEY (`user_id`,`role_id`)
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `sys_user_role_ibfk_2` (`role_id`),
+  CONSTRAINT `sys_user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `sys_user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色表';
 
 /*Data for the table `sys_user_role` */
 
-insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1),(1,2);
+insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1),(2,1),(1,2),(2,2),(14,2),(23,2),(24,2),(25,2),(26,2),(27,2),(28,2),(29,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

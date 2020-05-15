@@ -23,6 +23,8 @@ public class MenuTree extends TreeNode implements Serializable {
 
     private String path;
 
+    private String routeName;
+
     private String icon;
 
     private String component;
@@ -44,6 +46,7 @@ public class MenuTree extends TreeNode implements Serializable {
         this.parentId = sysMenu.getParentId();
         this.icon = sysMenu.getIcon();
         this.component = sysMenu.getComponent();
+        this.routeName = sysMenu.getRouteName();
         this.name = sysMenu.getName();
         this.path = sysMenu.getPath();
         this.sort = sysMenu.getSort();

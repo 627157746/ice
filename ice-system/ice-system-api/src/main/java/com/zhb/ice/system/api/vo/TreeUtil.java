@@ -84,6 +84,7 @@ public class TreeUtil {
             node.setParentId(menu.getParentId());
             node.setName(menu.getName());
             node.setPath(menu.getPath());
+            node.setRouteName(menu.getRouteName());
             node.setPermission(menu.getPermission());
             node.setComponent(menu.getComponent());
             node.setIcon(menu.getIcon());

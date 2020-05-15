@@ -6,7 +6,7 @@
     <!--通过角色查询菜单信息-->
     <select id="listMenusByRoleId" resultType="com.zhb.ice.system.api.entity.SysMenu">
         SELECT
-        m.id,m.`name`,permission,path,parent_id,icon,component,sort,is_no_cache AS noCache,
+        m.id,m.`name`,permission,path,route_name,parent_id,icon,component,sort,is_no_cache AS noCache,
         is_hidden AS hidden,`type`,create_time,update_time,is_del AS del
         FROM
         sys_menu m

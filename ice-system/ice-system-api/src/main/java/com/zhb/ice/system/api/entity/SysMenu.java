@@ -32,6 +32,8 @@ public class SysMenu implements Serializable {
 
     private String path;
 
+    private String routeName;
+
     @NotNull(groups = {Insert.class},message = "父菜单不能为空！")
     private Integer parentId;
 
