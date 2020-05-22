@@ -28,6 +28,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Transactional
     public void delById(Integer id) {
 
+        if (this.getById(id).getIsSystem()) {
+            throw new BaseException(Status.BAD_REQUEST.getCode(),"系统类字典不允许删除！");
+        }
         sysDictItemService.remove(Wrappers.<SysDictItem>lambdaQuery()
                 .eq(SysDictItem::getDictId, id));
         if (!this.removeById(id)) {

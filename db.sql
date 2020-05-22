@@ -80,15 +80,18 @@ CREATE TABLE `sys_dict` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典名称',
   `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
+  `is_system` tinyint(1) DEFAULT '0' COMMENT '是否系统类',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `create_time` bigint(13) NOT NULL COMMENT '创建时间',
   `update_time` bigint(13) NOT NULL COMMENT '更新时间',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `is_del` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sys_dict_del_flag` (`is_del`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典表';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典表';
 
 /*Data for the table `sys_dict` */
+
+insert  into `sys_dict`(`id`,`name`,`type`,`is_system`,`remarks`,`create_time`,`update_time`,`is_del`) values (1,'字典类型','dict_type',1,'系统类不可删除修改，业务类可以删除修改',1111111,1111111,0),(2,'用户状态','user_status',1,'用户状态列表',1111111,11111111,0);
 
 /*Table structure for table `sys_dict_item` */
 
@@ -109,9 +112,11 @@ CREATE TABLE `sys_dict_item` (
   KEY `sys_dict_value` (`value`) USING BTREE,
   KEY `sys_dict_label` (`label`) USING BTREE,
   KEY `sys_dict_del_flag` (`is_del`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
 
 /*Data for the table `sys_dict_item` */
+
+insert  into `sys_dict_item`(`id`,`value`,`label`,`type`,`sort`,`remarks`,`create_time`,`update_time`,`dict_id`,`is_del`) values (1,'1','系统类','dict_type',0,'不可以删除修改',11111111,111111111,1,0),(2,'0','业务类','dict_type',1,'可以删除修改',111111,111111,1,0),(8,'0','正常','user_status',0,'正常用户',1590139155061,1590139155061,2,0),(9,'1','锁定','user_status',1,'账户锁定',1590139171559,1590139171559,2,0);
 
 /*Table structure for table `sys_log` */
 
@@ -243,11 +248,11 @@ CREATE TABLE `sys_user` (
   `is_del` tinyint(1) DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remarks`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','fsdf','fsdfsd',2,1588995163241,1588995163241,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,2,1588995163241,1588995163241,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,2,1588995163241,1588995163241,1,0),(14,'sdf','fsd','fsdfsd','fds',NULL,NULL,2,1588995163241,1588995163241,0,0),(23,'angrc6dxyt','$2a$10$9GSTHz.GAV3gYA33Ustir.lJ5f6CwGNd39y8JK0oZkoCYrpnstie2','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188222920,NULL,0,0),(24,'tqrlouimcm','$2a$10$irCkXoFF7HBC3svfsLc.2.tBFvLb/QxCNneSdBfbVUVEjJYgR8BGK','04','hgf','http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188531781,1589254384982,0,0),(25,'vxc','$2a$10$sMiFMR.FL/9hVHFH0lyQU.P.cjbIt9ci9pYtDna.0s2n1ZYj/nRti','fds','11111',NULL,NULL,2,1589255341614,1589255341614,0,0),(26,'abcd','$2a$10$xO9oZcjMwGVJE.cGOqEM2epLEhTDL3zAb4zWBwheXHihtwdQA7Dfm','ices','123456',NULL,NULL,2,1589263378801,1589265524966,0,0),(27,'abcde','$2a$10$vYoi4DHRN4qq8nzm8Scp7OpE4cudD7TC/rvs5lX4hHi20PDid8oQa','ices','1234556',NULL,NULL,2,1589263462177,1589265534769,0,0),(28,'abcdeu','$2a$10$7CUmhQWDsIeNiaG3dqRK0epQEiR5WW0Cwpw5KvmMsa8wlUJvCXwoa','ices','12345567',NULL,NULL,2,1589263840306,1589265539232,0,1),(29,'dsf','$2a$10$0SfauX56U0qyTkIjzUi4R.hf8AW18p2phGeQ1qkOUIH/aKwpaQ2hS','df','vxc',NULL,NULL,2,1589333907549,1589333907549,0,0);
+insert  into `sys_user`(`id`,`username`,`password`,`nickname`,`phone`,`avatar`,`remarks`,`dept_id`,`create_time`,`update_time`,`is_lock_account`,`is_del`) values (1,'admin','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','管理员','18279130562','fsdf','fsdfsd',2,1588995163241,1588995163241,0,0),(2,'user','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','用户','17034642999','',NULL,2,1588995163241,1588995163241,0,0),(3,'lock','$2a$10$RpFJjxYiXdEsAGnWp/8fsOetMuOON96Ntk/Ym2M/RKRyU0GZseaDC','锁定','17034642999','',NULL,2,1588995163241,1588995163241,1,0),(14,'sdf','fsd','fsdfsd','fds',NULL,NULL,2,1588995163241,1588995163241,0,0),(23,'angrc6dxyt','$2a$10$9GSTHz.GAV3gYA33Ustir.lJ5f6CwGNd39y8JK0oZkoCYrpnstie2','04',NULL,'http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188222920,NULL,0,0),(24,'tqrlouimcm','$2a$10$irCkXoFF7HBC3svfsLc.2.tBFvLb/QxCNneSdBfbVUVEjJYgR8BGK','04','hgf','http://thirdqq.qlogo.cn/g?b=oidb&k=8aR9SClRlfzL1Tg6V6tFog&s=100&t=1555257554',NULL,2,1589188531781,1589254384982,0,0),(25,'vxc','$2a$10$sMiFMR.FL/9hVHFH0lyQU.P.cjbIt9ci9pYtDna.0s2n1ZYj/nRti','fds','11111',NULL,NULL,2,1589255341614,1589255341614,0,0),(26,'abcd','$2a$10$xO9oZcjMwGVJE.cGOqEM2epLEhTDL3zAb4zWBwheXHihtwdQA7Dfm','ices','123456',NULL,NULL,2,1589263378801,1589265524966,0,0),(27,'abcde','$2a$10$vYoi4DHRN4qq8nzm8Scp7OpE4cudD7TC/rvs5lX4hHi20PDid8oQa','ices','1234556',NULL,NULL,2,1589263462177,1589265534769,0,0),(28,'abcdeu','$2a$10$7CUmhQWDsIeNiaG3dqRK0epQEiR5WW0Cwpw5KvmMsa8wlUJvCXwoa','ices','12345567',NULL,NULL,2,1589263840306,1589265539232,0,1),(29,'dsf','$2a$10$0SfauX56U0qyTkIjzUi4R.hf8AW18p2phGeQ1qkOUIH/aKwpaQ2hS','df','vxc',NULL,NULL,2,1589333907549,1589333907549,0,0),(30,'fdsfsd','$2a$10$qUWknN19PsWwBI7.7SRQnORJ.pDhEXwsYLCIN99T13iweBAfDJBxy','fsdfsd','18279130000',NULL,NULL,2,1590139445456,1590139445456,0,0);
 
 /*Table structure for table `sys_user_role` */
 
@@ -264,7 +269,7 @@ CREATE TABLE `sys_user_role` (
 
 /*Data for the table `sys_user_role` */
 
-insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1),(2,1),(1,2),(2,2),(14,2),(23,2),(24,2),(25,2),(26,2),(27,2),(28,2),(29,2);
+insert  into `sys_user_role`(`user_id`,`role_id`) values (1,1),(2,1),(1,2),(2,2),(14,2),(23,2),(24,2),(25,2),(26,2),(27,2),(28,2),(29,2),(30,2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
