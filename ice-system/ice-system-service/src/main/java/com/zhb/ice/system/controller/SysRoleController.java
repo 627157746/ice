@@ -34,6 +34,7 @@ public class SysRoleController {
      * @Date 2020/5/9 16:22
      **/
     @GetMapping
+    @PreAuthorize("@ice.hasPermission('sys_role_query')")
     public R<List<SysRole>> list() {
         return R.ofSuccess(sysRoleService.list());
     }
@@ -43,6 +44,7 @@ public class SysRoleController {
      * @Date  2020/5/13 17:18
      **/
     @GetMapping("/page")
+    @PreAuthorize("@ice.hasPermission('sys_role_query')")
     public R pageByQuery(Page<SysRole> page, String name) {
         LambdaQueryWrapper<SysRole> wrapper = Wrappers.<SysRole>lambdaQuery()
                 .like(StrUtil.isNotBlank(name), SysRole::getName, name)
@@ -50,25 +52,27 @@ public class SysRoleController {
                 .like(StrUtil.isNotBlank(name), SysRole::getRemarks, name);
         return R.ofSuccess(sysRoleService.page(page, wrapper));
     }
-    
+
     /**
      * @Description //TODO 根据id查询角色信息
      * @Date  2020/5/14 15:13
      **/
     @GetMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_role_query')")
     public R getById(@PathVariable("id")Integer id){
         return R.ofSuccess(sysRoleService.getById(id));
     }
-    
+
     /**
      * @Description //TODO 根据id查询角色所拥有的菜单权限
      * @Date  2020/5/14 15:14
      **/
     @GetMapping("/menus/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_role_query')")
     public R getMenuIdsById(@PathVariable("id")Integer id){
         return R.ofSuccess(sysRoleService.getMenuIdsById(id));
     }
-    
+
     /**
      * @Description //TODO 添加角色
      * @Date  2020/5/14 15:14
@@ -81,7 +85,7 @@ public class SysRoleController {
         }
         return R.ofSuccess();
     }
-    
+
     /**
      * @Description //TODO 修改角色
      * @Date  2020/5/14 15:14
@@ -94,7 +98,7 @@ public class SysRoleController {
         }
         return R.ofSuccess();
     }
-    
+
     /**
      * @Description //TODO 根据id修改角色的菜单权限
      * @Date  2020/5/14 15:15
@@ -105,7 +109,7 @@ public class SysRoleController {
         sysRoleService.updateRoleMenuById(id,menuIds);
         return R.ofSuccess();
     }
-    
+
     /**
      * @Description //TODO 根据id删除角色
      * @Date  2020/5/14 15:15

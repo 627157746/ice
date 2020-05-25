@@ -28,7 +28,6 @@ public class SysLogUtils {
                 .requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         SysLog sysLog = new SysLog();
         sysLog.setCreateBy(Objects.requireNonNull(getUsername()));
-        sysLog.setType("0");
         sysLog.setIp(ServletUtil.getClientIP(request));
         sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
         sysLog.setMethod(request.getMethod());

@@ -14,8 +14,7 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: dev
-#logging:
-#  level:
-#    org:
-#      springframework: debug
-#    com.zhb.ice.system: debug
+logging:
+  level:
+    com.zhb.ice.system: debug
+#    org.springframework: debug

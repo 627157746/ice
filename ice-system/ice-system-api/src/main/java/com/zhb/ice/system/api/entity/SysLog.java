@@ -20,8 +20,6 @@ public class SysLog implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private String type;
-
     private String title;
 
     private String serviceId;

@@ -70,8 +70,8 @@
             <if test="query.deptId != null and query.deptId != ''">
                 and `su`.dept_id = #{query.deptId}
             </if>
-            <if test="query.lockAccount != null and query.lockAccount != ''">
-                and `su`.is_lock_account = #{query.lockAccount,jdbcType=BOOLEAN}
+            <if test="query.lockAccount != null">
+                and `su`.is_lock_account = #{query.lockAccount}
             </if>
         </where>
         ORDER BY `su`.id ASC

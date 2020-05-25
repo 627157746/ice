@@ -35,6 +35,7 @@ public class SysDictController {
      * @Date 2020/5/15 10:58
      **/
     @GetMapping
+    @PreAuthorize("@ice.hasPermission('sys_dict_query')")
     public R dictPageByQuery(Page<SysDict> page, SysDict sysDict) {
         return R.ofSuccess(sysDictService.page(page, Wrappers
                 .<SysDict>lambdaQuery()
@@ -48,6 +49,7 @@ public class SysDictController {
      * @Date 2020/5/15 10:58
      **/
     @GetMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_dict_query')")
     public R dictGetById(@PathVariable("id") Integer id) {
         return R.ofSuccess(sysDictService.getById(id));
     }
@@ -108,6 +110,7 @@ public class SysDictController {
      * @Date 2020/5/15 10:59
      **/
     @GetMapping("/items")
+    @PreAuthorize("@ice.hasPermission('sys_dict_query')")
     public R dictItemPageByQuery(Page<SysDictItem> page, SysDictItem sysDictItem) {
         return R.ofSuccess(sysDictItemService.page(page, Wrappers
                 .<SysDictItem>lambdaQuery()
@@ -121,6 +124,7 @@ public class SysDictController {
      * @Date 2020/5/15 10:59
      **/
     @GetMapping("/items/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_dict_query')")
     public R dictItemGetById(@PathVariable("id") Integer id) {
         return R.ofSuccess(sysDictItemService.getById(id));
     }

@@ -97,6 +97,7 @@ public class SysUserController {
      * @Date  2020/5/12 14:24
      **/
     @GetMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_user_query')")
     public R getById(@PathVariable("id")Integer id){
         return R.ofSuccess(sysUserService.getById(id));
     }
@@ -106,6 +107,7 @@ public class SysUserController {
      * @Date  2020/5/9 14:26
      **/
     @GetMapping
+    @PreAuthorize("@ice.hasPermission('sys_user_query')")
     public R pageByQuery(Page page, SysUser sysUser){
         return R.ofSuccess(sysUserService.pageByQuery(page,sysUser));
     }

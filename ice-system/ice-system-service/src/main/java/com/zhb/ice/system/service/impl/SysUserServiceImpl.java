@@ -168,7 +168,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             throw new BaseException(Status.REMOVE_ERROR);
         }
 
-        //有可能用户没绑定第三方用户，则不判断
+        //删除第三方绑定,有可能用户没绑定第三方用户，则不判断
         sysSocialUserService.remove(Wrappers
                 .<SysSocialUser>query()
                 .lambda()

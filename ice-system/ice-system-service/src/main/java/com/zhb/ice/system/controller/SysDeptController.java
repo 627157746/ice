@@ -24,11 +24,13 @@ public class SysDeptController {
     private final SysDeptService sysDeptService;
 
     @GetMapping("/tree")
+    @PreAuthorize("@ice.hasPermission('sys_dept_query')")
     public R listDeptTrees(Integer id) {
         return R.ofSuccess(sysDeptService.listDeptTrees(id));
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_dept_query')")
     public R getById(@PathVariable("id")Integer id){
         return R.ofSuccess(sysDeptService.getById(id));
     }

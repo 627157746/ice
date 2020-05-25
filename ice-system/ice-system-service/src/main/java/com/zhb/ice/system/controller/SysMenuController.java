@@ -48,6 +48,7 @@ public class SysMenuController {
      * @Date 2020/5/13 9:43
      **/
     @GetMapping("/tree")
+    @PreAuthorize("@ice.hasPermission('sys_menu_query')")
     public R getMenuTree(@RequestParam(defaultValue = "true") Boolean isAll, Integer parentId) {
         return R.ofSuccess(sysMenuService.menuTree(isAll, parentId));
     }
@@ -57,6 +58,7 @@ public class SysMenuController {
      * @Date  2020/5/13 16:46
      **/
     @GetMapping("/{id}")
+    @PreAuthorize("@ice.hasPermission('sys_menu_query')")
     public R getById(@PathVariable("id") Integer id) {
         return R.ofSuccess(sysMenuService.getById(id));
     }
