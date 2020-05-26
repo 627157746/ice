@@ -9,7 +9,7 @@ import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.system.api.entity.SysMenu;
 import com.zhb.ice.system.api.entity.SysRoleMenu;
 import com.zhb.ice.system.api.vo.MenuTree;
-import com.zhb.ice.system.api.vo.TreeUtil;
+import com.zhb.ice.system.api.util.TreeUtil;
 import com.zhb.ice.system.mapper.SysMenuMapper;
 import com.zhb.ice.system.service.SysMenuService;
 import com.zhb.ice.system.service.SysRoleMenuService;

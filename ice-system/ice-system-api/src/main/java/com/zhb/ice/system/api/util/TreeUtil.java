@@ -1,6 +1,8 @@
-package com.zhb.ice.system.api.vo;
+package com.zhb.ice.system.api.util;
 
 import com.zhb.ice.system.api.entity.SysMenu;
+import com.zhb.ice.system.api.vo.MenuTree;
+import com.zhb.ice.system.api.vo.TreeNode;
 import lombok.experimental.UtilityClass;
 
 import java.util.ArrayList;

@@ -7,7 +7,7 @@ import com.zhb.ice.common.core.exception.BaseException;
 import com.zhb.ice.system.api.entity.SysDept;
 import com.zhb.ice.system.api.entity.SysUser;
 import com.zhb.ice.system.api.vo.DeptTree;
-import com.zhb.ice.system.api.vo.TreeUtil;
+import com.zhb.ice.system.api.util.TreeUtil;
 import com.zhb.ice.system.mapper.SysDeptMapper;
 import com.zhb.ice.system.service.SysDeptService;
 import com.zhb.ice.system.service.SysUserService;

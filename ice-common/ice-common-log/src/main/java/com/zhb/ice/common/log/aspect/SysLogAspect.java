@@ -24,9 +24,6 @@ public class SysLogAspect {
     @Around("@annotation(sysLog)")
     @SneakyThrows
     public Object around(ProceedingJoinPoint point, SysLog sysLog) {
-        String strClassName = point.getTarget().getClass().getName();
-        String strMethodName = point.getSignature().getName();
-        log.info("[类名]:{},[方法]:{}", strClassName, strMethodName);
         com.zhb.ice.system.api.entity.SysLog sysLogVo = SysLogUtils.getSysLog();
         sysLogVo.setTitle(sysLog.value());
         // 发送异步日志事件

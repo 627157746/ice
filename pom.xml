@@ -31,6 +31,7 @@
         <mysql-connector.version>8.0.19</mysql-connector.version>
         <jasypt.version>2.1.0</jasypt.version>
         <JustAuth.version>1.15.1</JustAuth.version>
+        <oshi.version>3.9.1</oshi.version>
     </properties>
 
     <dependencies>
@@ -160,6 +161,11 @@
                 <groupId>me.zhyd.oauth</groupId>
                 <artifactId>JustAuth</artifactId>
                 <version>${JustAuth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
