@@ -28,7 +28,7 @@
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
         <hutool.version>5.2.5</hutool.version>
         <mybatis-plus.version>3.3.1</mybatis-plus.version>
-        <mysql-connector.version>8.0.19</mysql-connector.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
         <jasypt.version>2.1.0</jasypt.version>
         <JustAuth.version>1.15.1</JustAuth.version>
         <oshi.version>3.9.1</oshi.version>
